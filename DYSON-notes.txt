@@ -1,0 +1,34 @@
+;######  DYSON Notes  ######
+;#########################################
+
+
+
+;######  Notes
+
+	* V6 is DC59
+	
+	
+;######  Thermistor
+
+	* V6 11.5k
+	* DC34	75k
+
+;######  Disassembly
+
+	* V6 Tech dyson video
+	https://www.youtube.com/watch?v=_7MfDRiO8zU
+
+	* V6 Remove Motor (DC59)
+	https://www.youtube.com/watch?v=LcTLGjDgAmU
+	
+	* Cyclone take apart
+	https://www.youtube.com/watch?v=Fj4MxcdTS0A&t=856s
+	
+	* Take apart DC35 Battery
+	https://www.youtube.com/watch?v=Js9JWOxOIl0
+	
+	* Teardown of DC35
+	https://www.experimental-engineering.co.uk/2016/03/03/dyson-dc35-digital-teardown/
+	
+	* AVE Dyson DC34
+	https://www.experimental-engineering.co.uk/
