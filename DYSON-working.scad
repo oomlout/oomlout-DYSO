@@ -247,7 +247,7 @@ module drawDysonV6Battery(color,clearance=0){
     batteryBaseZ = -batteryBaseHeight/2-batteryBaseBumpDepth;
     oi("cubeRounded",x=batteryBaseX,y=batteryBaseY,z=batteryBaseZ,rad=batteryBaseHeight/2,width=batteryBaseWidth,height=batteryBaseHeight,depth=batteryBaseDepth,rotX=90,color=color);
     
-    screwHoleUpperZ = 55;
+    screwHoleUpperZ = 55-3;
     
 //HANDLE
     handleExtra=20;
@@ -260,7 +260,7 @@ module drawDysonV6Battery(color,clearance=0){
     //triangle, 20mm shift over 90mm 12.5 deg
     //https://www.omnicalculator.com/math/right-triangle-side-angle
     handleTilt=12.53;
-    handleX=-27+batteryBaseBumpShift+handleShift-3;
+    handleX=-27+batteryBaseBumpShift+handleShift-1.5;
     handleZ=(handleDepth-20);
     
     batteryClipX=handleX-5;
@@ -277,26 +277,47 @@ module drawDysonV6Battery(color,clearance=0){
         union(){
             //HANDLE
             oi("cubeRounded",x=handleX,y=0,z=handleZ,rad=handleDiameter/2,depth=handleDepth,height=handleDiameter,width=handleWidth,rotY=-handleTilt,color=color);
-//screwBracket Dimensions
-            screwBracketDrop=10;
-            screwBracketWidth = 3;
-            screwBracketHeight = 10;
-            screwBracketDepth = screwHoleUpperZ+5;
-            screwBracketX = handleX+handleWidth/2+screwBracketWidth/2-10;
-            screwBracketY = 0;
-            screwBracketZ = screwBracketDepth;
-            oi("cube",x=screwBracketX,y=screwBracketY,z=screwBracketZ,width=screwBracketWidth,height=screwBracketHeight,depth=screwBracketDepth,color=color);
-            //screwBracketDropPiece Dimensions
-            screwBracketDropPieceWidth = 10;
-            screwBracketDropPieceHeight = screwBracketHeight;
-            screwBracketDropPieceDepth = screwBracketDepth-screwBracketDrop;
-            screwBracketDropPieceX = screwBracketX;
-            screwBracketDropPieceY = screwBracketY;
-            screwBracketDropPieceZ = screwBracketZ-screwBracketDrop;
-            oi("cube",x=screwBracketDropPieceX,y=screwBracketDropPieceY,z=screwBracketDropPieceZ,width=screwBracketDropPieceWidth,height=screwBracketDropPieceHeight,depth=screwBracketDropPieceDepth,color=color);
-            
-            oi("cube",x=screwBracketX,y=screwBracketY,z=screwBracketZ-screwBracketDrop,width=screwBracketWidth,height=screwBracketHeight,depth=screwBracketDepth-screwBracketDrop,color=color);
+            difference(){
+                screwBracketDrop=10;
+                screwBracketWidth = 3;
+                screwBracketHeight = 10;
+                screwBracketDepth = screwHoleUpperZ+5;
+                screwBracketX = handleX+handleWidth/2+screwBracketWidth/2-10-5;
+                screwBracketY = 0;
+                screwBracketZ = screwBracketDepth;
+                screwBracketDropPieceX = screwBracketX;
+                screwBracketDropPieceY = screwBracketY;
+                screwBracketDropPieceZ = screwBracketZ-screwBracketDrop;
+                union(){
+        //screwBracket Dimensions
+
+                    oi("cube",x=screwBracketX,y=screwBracketY,z=screwBracketZ,width=screwBracketWidth,height=screwBracketHeight,depth=screwBracketDepth,color=color);
+                
+    //screwBracketDropPiece Dimensions
+                    
+                    screwBracketDropPieceWidth = 10;
+                    screwBracketDropPieceHeight = screwBracketHeight;
+                    screwBracketDropPieceDepth = screwBracketDepth-screwBracketDrop;
+                    //screwBracketDropPieceX = screwBracketX;
+                    //screwBracketDropPieceY = screwBracketY;
+                    //screwBracketDropPieceZ = screwBracketZ-screwBracketDrop;
+                    oi("cube",x=screwBracketDropPieceX,y=screwBracketDropPieceY,z=screwBracketDropPieceZ,width=screwBracketDropPieceWidth,height=screwBracketDropPieceHeight,depth=screwBracketDropPieceDepth,color=color);
+                }
+                oi("cube",x=screwBracketX,y=screwBracketY,z=screwBracketZ-screwBracketDrop,width=screwBracketWidth,height=screwBracketHeight,depth=screwBracketDepth-screwBracketDrop,color=color);
+//screwBracketSwitchClearance Dimensions
+                screwBracketSwitchClearanceSide = 7;
+                screwBracketSwitchClearanceDrop = -10;
+                screwBracketSwitchClearanceWidth = 10;
+                screwBracketSwitchClearanceHeight = 10;
+                screwBracketSwitchClearanceDepth = 10;
+                screwBracketSwitchClearanceX = screwBracketDropPieceX;
+                screwBracketSwitchClearanceY = screwBracketDropPieceY+screwBracketSwitchClearanceSide;
+                screwBracketSwitchClearanceZ = screwBracketDropPieceZ+screwBracketDrop+screwBracketSwitchClearanceDrop;
+            oi("cube",x=screwBracketSwitchClearanceX,y=screwBracketSwitchClearanceY,z=screwBracketSwitchClearanceZ,width=screwBracketSwitchClearanceWidth,height=screwBracketSwitchClearanceHeight,depth=screwBracketSwitchClearanceDepth,color=color);
+            }
         }
+        
+        
 
 //side cutouts
         //sideCutoutLeftFront Dimensions
