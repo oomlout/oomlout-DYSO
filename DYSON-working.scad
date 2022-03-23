@@ -72,8 +72,10 @@ module draw8(){
             testBlockY = 0;
             testBlockZ = testBlockDepth-6;
             oi("cubeRounded",x=testBlockX,y=testBlockY,z=testBlockZ,width=testBlockWidth,height=testBlockHeight,depth=testBlockDepth,color=color);
-            
-            drawDysonV6Battery(color,batteryTerminalClearance=true);
+            difference(){
+                drawDysonV6Battery(color);
+                drawDysonV6Battery(color,batteryTerminalClearance=true);
+            }
         }
     }
 }
@@ -217,12 +219,27 @@ module drawDysonV6(color="red",bottomClearance=false){
 
 module drawDysonV6Battery(color,clearance=0,batteryTerminalClearance=false){
     
+    handleExtra=20;
+    handleDepth=handleExtra+32-6; //63; //to screw;
+    handleWidth=42.5-6;
+    handleShift = -9;
+    batteryBaseBumpShift = -18-2;
+    handleX=-27+batteryBaseBumpShift+handleShift-1.5;
+    batteryTerminalExtra = 2;
+    bateryTerminalCenter = 9;
+    batteryTerminalLeftWidth = 8+batteryTerminalExtra;
+    batteryTerminalLeftHeight = 1+batteryTerminalExtra;
+    batteryTerminalLeftDepth = 20+batteryTerminalExtra;
+    batteryTerminalLeftX = handleX+handleWidth/2-27;
+    batteryTerminalLeftY = bateryTerminalCenter/2;
+    batteryTerminalLeftZ = handleDepth-handleExtra;
+        
     
-    
+    if(!batteryTerminalClearance){
     //batteryBaseBump (6 total 4 to the lip
 
-    batteryBaseBumpShift = -18-2;
-    handleShift = -9;
+    //batteryBaseBumpShift = -18-2;
+    //handleShift = -9;
     plasticThickness = 2.5;
     //batteryBaseBump Dimensions
     batteryBaseBumpWidth = 108;
@@ -250,17 +267,17 @@ module drawDysonV6Battery(color,clearance=0,batteryTerminalClearance=false){
     screwHoleUpperZ = 55-3;
     
 //HANDLE
-    handleExtra=20;
-    handleWidth=42.5-6;
+    //handleExtra=20;
+    //handleWidth=42.5-6;
     handleDiameter=24-0.5+clearance;
     //handleDiameter=1;
-    handleDepth=handleExtra+32-6; //63; //to screw;
+    //handleDepth=handleExtra+32-6; //63; //to screw;
     
     //handleShift = -9
     //triangle, 20mm shift over 90mm 12.5 deg
     //https://www.omnicalculator.com/math/right-triangle-side-angle
     handleTilt=11.5;
-    handleX=-27+batteryBaseBumpShift+handleShift-1.5;
+    //handleX=-27+batteryBaseBumpShift+handleShift-1.5;
     handleZ=(handleDepth-20);
     
     batteryClipX=handleX-5;
@@ -403,14 +420,14 @@ module drawDysonV6Battery(color,clearance=0,batteryTerminalClearance=false){
         oi("cube",x=rearCutoutRightX,y=rearCutoutRightY,z=rearCutoutRightZ,width=rearCutoutRightWidth,height=rearCutoutRightHeight,depth=rearCutoutRightDepth,rotY=-handleTilt,color=color);
         
 //batteryTerminalLeft Dimensions
-        batteryTerminalExtra = 2;
-        bateryTerminalCenter = 9;
-        batteryTerminalLeftWidth = 8+batteryTerminalExtra;
-        batteryTerminalLeftHeight = 1+batteryTerminalExtra;
-        batteryTerminalLeftDepth = 20+batteryTerminalExtra;
-        batteryTerminalLeftX = handleX+handleWidth/2-27;
-        batteryTerminalLeftY = bateryTerminalCenter/2;
-        batteryTerminalLeftZ = handleDepth-handleExtra;
+        //batteryTerminalExtra = 2;
+        //bateryTerminalCenter = 9;
+        //batteryTerminalLeftWidth = 8+batteryTerminalExtra;
+        //batteryTerminalLeftHeight = 1+batteryTerminalExtra;
+        //batteryTerminalLeftDepth = 20+batteryTerminalExtra;
+        //batteryTerminalLeftX = handleX+handleWidth/2-27;
+        //batteryTerminalLeftY = bateryTerminalCenter/2;
+        //batteryTerminalLeftZ = handleDepth-handleExtra;
         oi("cube",x=batteryTerminalLeftX,y=batteryTerminalLeftY,z=batteryTerminalLeftZ,width=batteryTerminalLeftWidth,height=batteryTerminalLeftHeight,depth=batteryTerminalLeftDepth,rotY=-handleTilt,color=color);
 //batteryTerminalRight Dimensions
         batteryTerminalRightWidth = batteryTerminalLeftWidth;
@@ -420,7 +437,20 @@ module drawDysonV6Battery(color,clearance=0,batteryTerminalClearance=false){
         batteryTerminalRightY = -batteryTerminalLeftY;
         batteryTerminalRightZ = batteryTerminalLeftZ;
         oi("cube",x=batteryTerminalRightX,y=batteryTerminalRightY,z=batteryTerminalRightZ,width=batteryTerminalRightWidth,height=batteryTerminalRightHeight,depth=batteryTerminalRightDepth,color=color);
-        if(batteryTerminalClearance){
+
+//screwHoleUpper Dimensions
+        screwHoleUpperWidth = 0;
+        screwHoleUpperHeight = 0;
+        screwHoleUpperDepth = 0;
+        screwHoleUpperX = 0;
+        screwHoleUpperY = 0;
+        //screwHoleUpperZ = 55;
+        oi("holeM3",x=screwHoleUpperX,y=screwHoleUpperY,z=screwHoleUpperZ,width=screwHoleUpperWidth,height=screwHoleUpperHeight,depth=screwHoleUpperDepth,rotY=90,color=color);
+        
+        
+    }    
+    }
+    else{
             batteryTerminalExtra = 4;
 //batteryTerminalClearanceLeft Dimensions
             batteryTerminalClearanceLeftWidth = batteryTerminalLeftWidth+batteryTerminalExtra*.75;
@@ -439,19 +469,7 @@ module drawDysonV6Battery(color,clearance=0,batteryTerminalClearance=false){
             batteryTerminalClearanceRightZ = batteryTerminalClearanceLeftZ;
             oi("cube",x=batteryTerminalClearanceRightX,y=batteryTerminalClearanceRightY,z=batteryTerminalClearanceRightZ,width=batteryTerminalClearanceRightWidth,height=batteryTerminalClearanceRightHeight,depth=batteryTerminalClearanceRightDepth,color=color);
             
-        }
-//screwHoleUpper Dimensions
-        screwHoleUpperWidth = 0;
-        screwHoleUpperHeight = 0;
-        screwHoleUpperDepth = 0;
-        screwHoleUpperX = 0;
-        screwHoleUpperY = 0;
-        //screwHoleUpperZ = 55;
-        oi("holeM3",x=screwHoleUpperX,y=screwHoleUpperY,z=screwHoleUpperZ,width=screwHoleUpperWidth,height=screwHoleUpperHeight,depth=screwHoleUpperDepth,rotY=90,color=color);
-        
-        
-    }    
-    
+        }  
     
     
     /******* Old handle drawing
