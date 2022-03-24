@@ -94,7 +94,7 @@ module draw9(){
         testBlockZ = 6;
         oi("cubeRounded",x=testBlockX,y=testBlockY,z=testBlockZ,width=testBlockWidth,height=testBlockHeight,depth=testBlockDepth,color=color);
         
-        #drawDysonV6Battery(color,clearance=0.5);
+        drawDysonV6Battery(color,clearance=0.5);
     }
 }
 
@@ -254,7 +254,7 @@ module drawDysonV6Battery(color,clearance=0,batteryTerminalClearance=false){
     screwBracketDrop=10;
     screwBracketWidth = 3;    
     screwBracketDepth = screwHoleUpperZ+5;
-    screwBracketX = handleX+handleWidth/2+screwBracketWidth/2-10-5;
+    screwBracketX = handleX+handleWidth/2+screwBracketWidth/2-10-5-3;
     screwBracketY = 0;
     screwBracketZ = screwBracketDepth;
     screwBracketDropPieceX = screwBracketX;
@@ -313,15 +313,15 @@ module drawDysonV6Battery(color,clearance=0,batteryTerminalClearance=false){
     screwBracketCylinderY = 0;
     screwBracketCylinderZ = screwHoleUpperZ;
     sideCutoutCenters = 4;
-//////######  SIDE CUT OUT    
+//////  SIDE CUT OUT    
     sideCutoutLeftFrontWidth = 4;
     sideCutoutLeftFrontHeight = 4;
-    sideCutoutX=22.5;    
+    sideCutoutX=24;    
 //sideCutoutLeftFront Dimensions    
     sideCutoutLeftFrontDepth = 43+1;//extra for tilt?
     sideCutoutLeftFrontX = handleX+handleWidth/2-sideCutoutX;
     sideCutoutLeftFrontY = -handleDiameter/2+sideCutoutLeftFrontHeight/2-1;
-    sideCutoutLeftFrontZ = sideCutoutLeftFrontDepth-batteryBaseBumpDepth-1;
+    sideCutoutLeftFrontZ = sideCutoutLeftFrontDepth-batteryBaseBumpDepth-2;
 
 //sideCutoutLeftRear Dimensions
     sideCutoutLeftRearWidth = sideCutoutLeftFrontWidth;
@@ -348,12 +348,12 @@ module drawDysonV6Battery(color,clearance=0,batteryTerminalClearance=false){
 //rear cutouts
 //rearCutoutLeft Dimensions
     rearCutoutCenters = 9.5;
-    rearCutoutLeftWidth = sideCutoutLeftFrontWidth+2.5;
-    rearCutoutLeftHeight = sideCutoutLeftFrontHeight;
+    rearCutoutLeftWidth = 4;
+    rearCutoutLeftHeight = 3;
     rearCutoutLeftDepth = 34+1;
-    rearCutoutLeftX = handleX-handleWidth/2+rearCutoutLeftWidth/2-.5;
+    rearCutoutLeftX = handleX-handleWidth/2+rearCutoutLeftWidth/2-2;
     rearCutoutLeftY = -rearCutoutCenters/2;
-    rearCutoutLeftZ = rearCutoutLeftDepth-batteryBaseBumpDepth-1;
+    rearCutoutLeftZ = rearCutoutLeftDepth-batteryBaseBumpDepth-2;
 //rearCutoutRight Dimensions
     rearCutoutRightWidth = rearCutoutLeftWidth;
     rearCutoutRightHeight = rearCutoutLeftHeight;
@@ -388,7 +388,7 @@ module drawDysonV6Battery(color,clearance=0,batteryTerminalClearance=false){
 //batteryTerminalClearanceLeft Dimensions
     batteryTerminalClearanceLeftWidth = batteryTerminalLeftWidth+batteryTerminalExtra*.75;
     batteryTerminalClearanceLeftHeight = batteryTerminalLeftHeight+batteryTerminalExtra;
-    batteryTerminalClearanceLeftDepth = batteryTerminalLeftDepth+batteryTerminalExtra*3;
+    batteryTerminalClearanceLeftDepth = batteryTerminalLeftDepth+batteryTerminalExtra*5;
     batteryTerminalClearanceLeftX = batteryTerminalLeftX-(batteryTerminalExtra*.75/2);
     batteryTerminalClearanceLeftY = batteryTerminalLeftY;
     batteryTerminalClearanceLeftZ = batteryTerminalLeftZ;
@@ -446,7 +446,7 @@ module drawDysonV6Battery(color,clearance=0,batteryTerminalClearance=false){
 //BATTERYTERMINALLEFT        
             oi("cube",x=batteryTerminalLeftX,y=batteryTerminalLeftY,z=batteryTerminalLeftZ,width=batteryTerminalLeftWidth,height=batteryTerminalLeftHeight,depth=batteryTerminalLeftDepth,rotY=-handleTilt,color=color);
 //BATTERYTERMINALRIGHT oi        
-            oi("cube",x=batteryTerminalRightX,y=batteryTerminalRightY,z=batteryTerminalRightZ,width=batteryTerminalRightWidth,height=batteryTerminalRightHeight,depth=batteryTerminalRightDepth,color=color);
+            oi("cube",x=batteryTerminalRightX,y=batteryTerminalRightY,z=batteryTerminalRightZ,width=batteryTerminalRightWidth,height=batteryTerminalRightHeight,depth=batteryTerminalRightDepth,rotY=-handleTilt,color=color);
 //SCREWHOLEUPPER oi
             oi("holeM3",x=screwHoleUpperX,y=screwHoleUpperY,z=screwHoleUpperZ,width=screwHoleUpperWidth,height=screwHoleUpperHeight,depth=screwHoleUpperDepth,rotY=90,color=color);
         }    
