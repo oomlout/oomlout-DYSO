@@ -65,13 +65,13 @@ module draw8(){
     translate([0,0,100]){
         intersection(){
             //testBlock Dimensions
-            testBlockWidth = 60;
-            testBlockHeight = 40;
+            testBlockWidth = 60-8;
+            testBlockHeight = 40-12;
             testBlockDepth = 150;
             testBlockX = -55;
             testBlockY = 0;
-            testBlockZ = testBlockDepth-6;
-            oi("cubeRounded",x=testBlockX,y=testBlockY,z=testBlockZ,width=testBlockWidth,height=testBlockHeight,depth=testBlockDepth,color=color);
+            testBlockZ = testBlockDepth-6+2.25;
+            #oi("cubeRounded",x=testBlockX,y=testBlockY,z=testBlockZ,width=testBlockWidth,height=testBlockHeight,depth=testBlockDepth,color=color);
             difference(){
                 drawDysonV6Battery(color);
                 drawDysonV6Battery(color,batteryTerminalClearance=true);
