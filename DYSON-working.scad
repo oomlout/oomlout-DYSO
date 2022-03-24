@@ -276,7 +276,7 @@ module drawDysonV6Battery(color,clearance=0,batteryTerminalClearance=false){
     //handleShift = -9
     //triangle, 20mm shift over 90mm 12.5 deg
     //https://www.omnicalculator.com/math/right-triangle-side-angle
-    handleTilt=11.5;
+    handleTilt=11.5+3.3; //angle
     //handleX=-27+batteryBaseBumpShift+handleShift-1.5;
     handleZ=(handleDepth-20);
     
