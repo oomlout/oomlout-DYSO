@@ -224,9 +224,9 @@ module drawDysonV6Battery(color,clearance=0,batteryTerminalClearance=false){
 //HANDLE
     handleExtra=20;
     handleDepth = handleExtra+32-6; //63; //to screw;
-    handleWidth=42.5-6+2;
+    handleWidth=42.5-6+2+1;
     handleShift = -9;
-    handleDiameter=24-0.5+clearance;
+    handleDiameter=24-0.5+clearance+1;
     //triangle, 20mm shift over 90mm 12.5 deg
     //https://www.omnicalculator.com/math/right-triangle-side-angle
     handleTilt=11.5+3.3; //angle
@@ -314,7 +314,7 @@ module drawDysonV6Battery(color,clearance=0,batteryTerminalClearance=false){
     screwBracketCylinderZ = screwHoleUpperZ;
     sideCutoutCenters = 4;
 //////  SIDE CUT OUT    
-    sideCutoutLeftFrontWidth = 4;
+    sideCutoutLeftFrontWidth = 3;
     sideCutoutLeftFrontHeight = 4;
     sideCutoutX=24;    
 //sideCutoutLeftFront Dimensions    
@@ -349,7 +349,7 @@ module drawDysonV6Battery(color,clearance=0,batteryTerminalClearance=false){
 //rearCutoutLeft Dimensions
     rearCutoutCenters = 9.5;
     rearCutoutLeftWidth = 4;
-    rearCutoutLeftHeight = 3;
+    rearCutoutLeftHeight = 2;
     rearCutoutLeftDepth = 34+1;
     rearCutoutLeftX = handleX-handleWidth/2+rearCutoutLeftWidth/2-2;
     rearCutoutLeftY = -rearCutoutCenters/2;
