@@ -67,7 +67,7 @@ module draw8(){
             //testBlock Dimensions
             testBlockWidth = 60-8;
             testBlockHeight = 40-12;
-            testBlockDepth = 150;
+            testBlockDepth = 10;//150;
             testBlockX = -55;
             testBlockY = 0;
             testBlockZ = testBlockDepth-6+2.25;
@@ -226,10 +226,10 @@ module drawDysonV6Battery(color,clearance=0,batteryTerminalClearance=false){
     handleDepth = handleExtra+32-6; //63; //to screw;
     handleWidth=42.5-6+2+1;
     handleShift = -9;
-    handleDiameter=24-0.5+clearance+1;
+    handleDiameter=24-0.5+clearance;
     //triangle, 20mm shift over 90mm 12.5 deg
     //https://www.omnicalculator.com/math/right-triangle-side-angle
-    handleTilt=11.5+3.3; //angle
+    handleTilt=90-74.62;//11.5+3.3; //angle
     handleX=-27+batteryBaseBumpShift+handleShift-1.5;
     handleZ=(handleDepth-20);
 //batteryBaseBump (6 total 4 to the lip
@@ -316,7 +316,7 @@ module drawDysonV6Battery(color,clearance=0,batteryTerminalClearance=false){
 //////  SIDE CUT OUT    
     sideCutoutLeftFrontWidth = 3;
     sideCutoutLeftFrontHeight = 4;
-    sideCutoutX=24;    
+    sideCutoutX=24+.5;    
 //sideCutoutLeftFront Dimensions    
     sideCutoutLeftFrontDepth = 43+1;//extra for tilt?
     sideCutoutLeftFrontX = handleX+handleWidth/2-sideCutoutX;
