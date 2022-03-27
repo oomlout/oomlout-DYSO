@@ -68,7 +68,7 @@ module draw8(){
             testBlockWidth = 60-8;
             testBlockHeight = 40-12;
             testBlockDepth = 10;//150;
-            testBlockX = -55;
+            testBlockX = -55+5;
             testBlockY = 0;
             testBlockZ = testBlockDepth-6+2.25;
             oi("cubeRounded",x=testBlockX,y=testBlockY,z=testBlockZ,width=testBlockWidth,height=testBlockHeight,depth=testBlockDepth,color=color);
@@ -229,7 +229,7 @@ module drawDysonV6Battery(color,clearance=0,batteryTerminalClearance=false){
     handleDiameter=24-0.5+clearance;
     //triangle, 20mm shift over 90mm 12.5 deg
     //https://www.omnicalculator.com/math/right-triangle-side-angle
-    handleTilt=90-74.62;//11.5+3.3; //angle
+    handleTilt=12;//V21//17.5;//v20//90-74.62;//15.4(v19)//11.5+3.3;//13.8(V18) //angle
     handleX=-27+batteryBaseBumpShift+handleShift-1.5;
     handleZ=(handleDepth-20);
 //batteryBaseBump (6 total 4 to the lip
