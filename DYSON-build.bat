@@ -6,16 +6,16 @@ setlocal enabledelayedexpansion
 SET PROJECT=DYSON
 
 
-set ITEM[1]=V6HANDLE
-set ITEM[2]=BATTERY
-set ITEM[3]=ZZZZ
-set ITEM[4]=ZZZZ
-set ITEM[5]=ZZZZ
-set ITEM[6]=ZZZZ
+set ITEM[1]=DysonV6
+set ITEM[2]=DysonV6Battery
+set ITEM[3]=DysonV6Handle
+set ITEM[4]=DysonV6DustBin
+set ITEM[5]=DysonV6BatteryClip
+set ITEM[6]=FrontBumpTest
 set ITEM[7]=ZZZZ
-set ITEM[8]=BATTERYTESTINNIE
-set ITEM[9]=BATTERYTEST
-set ITEM[10]=BOTTOMTEST
+set ITEM[8]=HandleTest
+set ITEM[9]=BottomTestPrint
+set ITEM[10]=BottomTest
 set ITEM[11]=ALL
 
 
@@ -25,7 +25,8 @@ SET LASERFILE=C:\DB\Dropbox\LALA-Laser Files\BBBB-projectFiles\%PROJECT%
 
 del %FILEFULL%.stl
 
-(for /l %%i in (1,1,11) do (
+REM(for /l %%i in (1,1,11) do (
+(for /l %%i in (5,1,11) do (
     echo Making Index: %%i Filename: %FILEFULL%-!ITEM[%%i]!	
     del %FILEFULL%-!ITEM[%%i]!-3DPR.stl   
     openscad -o %FILEFULL%-!ITEM[%%i]!-3DPR.stl -D "i=%%i;o=\"3DPR"" DYSON-3DPR.scad
@@ -39,12 +40,12 @@ del %FILEFULL%.stl
     openscad -o %FILEFULL%-!ITEM[%%i]!-LAZE.svg -D "i=%%i;o=\"LAZE"" DYSON-LAZE.scad
 	del %FILEFULL%-!ITEM[%%i]!-LAZE.pdf
 	inkscape.exe --export-filename="%FILEFULL%-!ITEM[%%i]!-LAZE.pdf" "%FILEFULL%-!ITEM[%%i]!-LAZE.svg"	
-	prusa-slicer-console.exe --export-gcode --repair --output %FILEFULL%-!ITEM[%%i]!-3DPR.gcode  -load "C:\DB\Dropbox\BBBB-Product Working\3DPR\3DPR-commandLine\OOBB-run.ini" %FILEFULL%-!ITEM[%%i]!-3DPR.stl  
+	REM prusa-slicer-console.exe --export-gcode --repair --output %FILEFULL%-!ITEM[%%i]!-3DPR.gcode  -load "C:\DB\Dropbox\BBBB-Product Working\3DPR\3DPR-commandLine\OOBB-run.ini" %FILEFULL%-!ITEM[%%i]!-3DPR.stl  
 ))
 
 
 REM #############################################################################
 REM ######      ALL DONE !!!!!! #################################################
 REM #############################################################################
-pause
+REM pause
 

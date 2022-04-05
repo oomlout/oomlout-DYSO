@@ -27,20 +27,21 @@ module draw2(){
 // Description
 module draw3(){
     color="yellow";
-    
+    drawDysonV6Handle(color);
 }
 
 // ZZZZ
 // Description
 module draw4(){
-    color="green";
-    
+    color="yellow";
+    drawDysonV6DustBin(color);
 }
 
 // ZZZZ
 // Description
 module draw5(){
     color="blue";
+    drawDysonBatteryClipBolt(color);
     
 }
 
@@ -48,29 +49,34 @@ module draw5(){
 // Description
 module draw6(){
     color="purple";
-    
+    translate([0,0,30]){
+    intersection(){
+        //testBlock Dimensions
+        testBlockWidth = 30;
+        testBlockHeight = 15;
+        testBlockDepth = 14;
+        testBlockX = -90;
+        testBlockY = 0;
+        testBlockZ = 4;
+        oi("cubeRounded",x=testBlockX,y=testBlockY,z=testBlockZ,width=testBlockWidth,height=testBlockHeight,depth=testBlockDepth,color=color);
+        drawDysonV6Battery(color);
+        
+    }
+    }
 }
-
 // ZZZZ
 // Description
 module draw7(){
     color="gray";
-    
-}
-
-// ZZZZ
-// Description
-module draw8(){
-    color="white";
-    translate([0,0,100]){
+     translate([0,0,100]){
         intersection(){
             //testBlock Dimensions
-            testBlockWidth = 60-8;
-            testBlockHeight = 40-12;
-            testBlockDepth = 10;//150;
-            testBlockX = -55+5;
+            testBlockWidth = 60;
+            testBlockHeight = 40;
+            testBlockDepth = 150;
+            testBlockX = -115;
             testBlockY = 0;
-            testBlockZ = testBlockDepth-6+2.25;
+            testBlockZ = testBlockDepth-12;
             oi("cubeRounded",x=testBlockX,y=testBlockY,z=testBlockZ,width=testBlockWidth,height=testBlockHeight,depth=testBlockDepth,color=color);
             difference(){
                 drawDysonV6Battery(color);
@@ -82,19 +88,56 @@ module draw8(){
 
 // ZZZZ
 // Description
+module draw8(){
+    color="white";
+    //////test5 oi
+    oii("cube","test5",color);
+
+    translate([0,0,40]){
+        intersection(){        
+            thick = 100;
+            width=60;
+            height=35;
+            depth=thick;       
+            x=-width+33;
+            y=0;
+            z=thick-3;
+//////cutout dimensions
+            cutoutW = width-70;
+            cutoutH = height-10;
+            cutoutD = depth;
+            cutoutX = x-16;
+            cutoutY = y;
+            cutoutZ = z;
+         
+            oi("cubeRounded",x=x,y=y,z=z,width=width,height=height,depth=depth,color=color);
+            difference(){
+                drawDysonV6Battery(color);
+//////cutout oi
+                oi("cubeRounded",x=cutoutX,y=cutoutY,z=cutoutZ,width=cutoutW,height=cutoutH,depth=cutoutD,color=color,name="cutout");
+        }
+
+        }
+    }
+}
+
+// ZZZZ
+// Description
 module draw9(){
-    color="gray";
-    difference(){
+    color="orange";
+    translate([0,0,30]){
+    intersection(){
         //testBlock Dimensions
-        testBlockWidth = 50;
+        testBlockWidth = 30;
         testBlockHeight = 40;
-        testBlockDepth = 10;
-        testBlockX = -52;
+        testBlockDepth = 14;
+        testBlockX = -90;
         testBlockY = 0;
-        testBlockZ = 6;
+        testBlockZ = 4;
         oi("cubeRounded",x=testBlockX,y=testBlockY,z=testBlockZ,width=testBlockWidth,height=testBlockHeight,depth=testBlockDepth,color=color);
+        drawDysonV6Battery(color);
         
-        drawDysonV6Battery(color,clearance=0.5);
+    }
     }
 }
 
@@ -102,18 +145,37 @@ module draw9(){
 // Description
 module draw10(){
     color="pink";
+    //////test5 oi
+    oii("cube","test5",color);
+
+//////mainPiece dimensions
+    mainPieceW = 110;
+    mainPieceH = 35;
+    mainPieceD = 15;
+    mainPieceX = -mainPieceW+60;
+    mainPieceY = 0;
+    mainPieceZ = mainPieceD-10;
+//////cutout dimensions
+    cutoutW = mainPieceW;
+    cutoutH = mainPieceH;
+    cutoutD = 100;
+    cutoutX = mainPieceW/2-80;
+    cutoutY = 0;
+    cutoutZ = mainPieceZ-6;
+
+    
+
+
     translate([0,0,20]){
-        difference(){        
-            thick = 5;
-            width=110;
-            height=35;
-            depth=thick;       
-            x=-width/2+5;
-            y=0;
-            z=thick/2;
-            
-            oi("cubeRounded",x=x,y=y,z=z,width=width,height=height,depth=depth,color=color);
-            drawDysonV6(color,bottomClearance=true);
+        intersection(){ 
+//////mainPiece oi            
+            oi("cubeRounded",x=mainPieceX,y=mainPieceY,z=mainPieceZ,width=mainPieceW,height=mainPieceH,depth=mainPieceD,color=color,name="mainPiece");
+            difference(){
+                drawDysonV6Battery(color);
+//////cutout oi
+                #oi("cube",x=cutoutX,y=cutoutY,z=cutoutZ,width=cutoutW,height=cutoutH,depth=cutoutD,color=color,name="cutout");
+        }
+
         }
     }
 }
@@ -142,321 +204,656 @@ module ZZZZinsert(item,x=0,y=0,z=0,ex=0,length=0,rotX=0,rotY=0,rotZ=0,width=0,he
     }
 }
 
-module drawDysonV6(color="red",bottomClearance=false){
-    handleDiameter=28.5;
-    bottomPieceWidth=99;
-    
-    union(){ //to add batery screw bump
-        difference(){ // to slice off anything below 0
-            union(){
-//BARREL
-                barrelDiameter=70;
-                barrelLength=96;
-                barrelZ=130;
-                barrelX=-(bottomPieceWidth-barrelLength);
-                oi("cylinder",x=barrelX,y=0,z=barrelZ,rad=barrelDiameter/2,rotY=90,depth=barrelLength,color=color);
-                
-//HANDLE
-                handleWidth=42.5;
-                
-                //handleDiameter=1;
-                handleDepth = 120;
-                //triangle, 20mm shift over 90mm 12.5 deg
-                //https://www.omnicalculator.com/math/right-triangle-side-angle
-                handleTilt=12.53;
-                handleX=-44;
-                handleZ=(handleDepth-20);
-                oi("cubeRounded",x=handleX,y=0,z=handleZ,rad=handleDiameter/2,depth=handleDepth,height=handleDiameter,width=handleWidth,rotY=-handleTilt,color=color);
-                
-                //Front Support
-                //base piece
-                fsBaseHeight=handleDiameter;
-                fsBaseWidth=13.5;
-                fsBaseDepth=20;
-                fsBaseZ=18.5;
-                fsBaseX=-bottomPieceWidth+fsBaseWidth/2;
-                oi("cube",x=fsBaseX,y=0,z=fsBaseZ,width=fsBaseWidth,height=fsBaseHeight,depth=fsBaseDepth,color=color);
-                //main piece            
-                fsExtra=8;
-                fsMainHeight=handleDiameter;
-                fsMainWidth=9;
-                fsMainDepth=95+fsExtra;
-                fsMainZ=fsMainDepth;
-                fsMainX=fsBaseX-((fsBaseWidth-fsMainWidth)/2);
-                oi("cube",x=fsMainX,y=0,z=fsMainZ,width=fsMainWidth,height=fsMainHeight,depth=fsMainDepth,color=color);
-                
-                //bottom Piece
-                bottomExtra= bottomClearance ? 100 : 0;
-                bottomHeight=handleDiameter;
-                bottomWidth=bottomPieceWidth-handleDiameter/2;
-                bottomDepth=4.5+bottomExtra;
-                bottomZ=bottomDepth;
-                bottomX=-bottomWidth/2-handleDiameter/2;
-                oi("cube",x=bottomX,y=0,z=bottomZ,width=bottomWidth,height=bottomHeight,depth=bottomDepth,color=color);
-                
-                
-            }   
-                //remove the overhang out the bottom
-                oi("cube",x=0,y=0,z=0,width=1000,height=1000,depth=100,color=color);
-        }
-        //battery screw bump
-        //main
-        bsbMainHeight=handleDiameter;
-        bsbMainWidth=13.5;
-        bsbMainDepth=2.5;
-        bsbMainZ=0;
-        bsbMainX=-bottomPieceWidth+bsbMainWidth/2;
-        oi("cube",x=bsbMainX,y=0,z=bsbMainZ,width=bsbMainWidth,height=bsbMainHeight,depth=bsbMainDepth,color=color);
-        //screw
-        bsbScrewHeight=5.5;
-        bsbScrewWidth=10;
-        bsbScrewDepth=bsbMainDepth+5;
-        bsbScrewZ=-bsbMainDepth;
-        bsbScrewX=-bottomPieceWidth+bsbScrewWidth/2;
-        oi("cube",x=bsbScrewX,y=0,z=bsbScrewZ,width=bsbScrewWidth,height=bsbScrewHeight,depth=bsbScrewDepth,color=color);
-    }
+module drawDysonV6(color){
+    drawDysonV6Handle();
+    drawDysonV6DustBin();
+    drawDysonV6Battery();
 }
 
-module drawDysonV6Battery(color,clearance=0,batteryTerminalClearance=false){
+module drawDysonBatteryClipBolt(color){
 
-    batteryBaseBumpShift = -18-2;
-
-//HANDLE
-    handleExtra=20;
-    handleDepth = handleExtra+32-6; //63; //to screw;
-    handleWidth=42.5-6+2+1;
-    handleShift = -9;
-    handleDiameter=24-0.5+clearance;
-    //triangle, 20mm shift over 90mm 12.5 deg
-    //https://www.omnicalculator.com/math/right-triangle-side-angle
-    handleTilt=13;//V22//12;//V21//17.5;//v20//90-74.62;//15.4(v19)//11.5+3.3;//13.8(V18) //angle
-    handleX=-27+batteryBaseBumpShift+handleShift-1.5;
-    handleZ=(handleDepth-20);
-//batteryBaseBump (6 total 4 to the lip
-    //handleShift = -9;
-    plasticThickness = 2.5;
-//batteryBaseBump Dimensions
-    batteryBaseBumpWidth = 108;
-    batteryBaseBumpHeight = 42;
-    batteryBaseBumpDepth = 4;
-    batteryBaseBumpX = -batteryBaseBumpWidth/2+batteryBaseBumpShift;
-    batteryBaseBumpY = 0;
-    batteryBaseBumpZ = 0;
-//batteryBase Dimensions
-    batteryBaseWidth = 123;
-    batteryBaseHeight = 28;
-    batteryBaseDepth = 75;
-    batteryBaseX = -batteryBaseWidth/2;
-    batteryBaseY = -batteryBaseDepth/2;
-    batteryBaseZ = -batteryBaseHeight/2-batteryBaseBumpDepth;
-    screwHoleUpperZ = 55-3;
-//screwBracket Dimensions
-    screwBracketDrop=10;
-    screwBracketWidth = 3;    
-    screwBracketDepth = screwHoleUpperZ+5;
-    screwBracketX = handleX+handleWidth/2+screwBracketWidth/2-10-5-3;
-    screwBracketY = 0;
-    screwBracketZ = screwBracketDepth;
-    screwBracketDropPieceX = screwBracketX;
-    screwBracketDropPieceY = screwBracketY;
-    screwBracketDropPieceZ = screwBracketZ-screwBracketDrop;
-    
-
-    batteryClipX=handleX-5;
-    batteryClipHeight=17+clearance; //measured 19 smaller to fit for sure
-    batteryClipWidth=28;
-    
-    
-    rearCutoutX=handleX-handleWidth/2-4;
-    
-    sideCutoutWidth=1;    
-    sideCutoutHeight=25;    
-    
-    
-
-    //screwBracketDrop=10;
-    //screwBracketWidth = 3;
-    screwBracketHeight = 10;
-    //screwBracketDepth = screwHoleUpperZ+5;
-    //screwBracketX = handleX+handleWidth/2+screwBracketWidth/2-10-5;
-    //screwBracketY = 0;
-    //screwBracketZ = screwBracketDepth;
-    //screwBracketDropPieceX = screwBracketX;
-    //screwBracketDropPieceY = screwBracketY;
-    //screwBracketDropPieceZ = screwBracketZ-screwBracketDrop;
-    
-    //screwBracket Dimensions
-    
-    screwBracketClearance = 4;
-    screwBracketDropPieceWidth = 10;
-    screwBracketDropPieceHeight = screwBracketHeight;
-    screwBracketDropPieceDepth = screwBracketDepth-screwBracketDrop;
-    //screwBracketDropPieceX = screwBracketX;
-    //screwBracketDropPieceY = screwBracketY;
-    //screwBracketDropPieceZ = screwBracketZ-screwBracketDrop;
-
-  
-//screwBracketSwitchClearance Dimensions
-    screwBracketSwitchClearanceSide = 7;
-    screwBracketSwitchClearanceDrop = -7;
-    screwBracketSwitchClearanceWidth = 10;
-    screwBracketSwitchClearanceHeight = 10;
-    screwBracketSwitchClearanceDepth = 10;
-    screwBracketSwitchClearanceX = screwBracketDropPieceX;
-    screwBracketSwitchClearanceY = screwBracketDropPieceY+screwBracketSwitchClearanceSide;
-    screwBracketSwitchClearanceZ = screwBracketDropPieceZ+screwBracketDrop+screwBracketSwitchClearanceDrop;
-//screwBracketCylinder Dimensions
-    screwBracketCylinderRad = 5.25;
-    screwBracketCylinderHeight = 0;
-    screwBracketCylinderDepth = screwBracketWidth;
-    screwBracketCylinderX = screwBracketX+screwBracketCylinderDepth/2;
-    screwBracketCylinderY = 0;
-    screwBracketCylinderZ = screwHoleUpperZ;
-    sideCutoutCenters = 4;
-//////  SIDE CUT OUT    
-    sideCutoutLeftFrontWidth = 3;
-    sideCutoutLeftFrontHeight = 4;
-    sideCutoutX=24+.5;    
-//sideCutoutLeftFront Dimensions    
-    sideCutoutLeftFrontDepth = 43+1;//extra for tilt?
-    sideCutoutLeftFrontX = handleX+handleWidth/2-sideCutoutX;
-    sideCutoutLeftFrontY = -handleDiameter/2+sideCutoutLeftFrontHeight/2-1;
-    sideCutoutLeftFrontZ = sideCutoutLeftFrontDepth-batteryBaseBumpDepth-2;
-
-//sideCutoutLeftRear Dimensions
-    sideCutoutLeftRearWidth = sideCutoutLeftFrontWidth;
-    sideCutoutLeftRearHeight = sideCutoutLeftFrontHeight;
-    sideCutoutLeftRearDepth = sideCutoutLeftFrontDepth;
-    sideCutoutLeftRearX = sideCutoutLeftFrontX-sideCutoutCenters;
-    sideCutoutLeftRearY = sideCutoutLeftFrontY;
-    sideCutoutLeftRearZ = sideCutoutLeftFrontZ;
-//sideCutoutRightFront Dimensions
-    sideCutoutRightFrontWidth = sideCutoutLeftFrontWidth;
-    sideCutoutRightFrontHeight = sideCutoutLeftFrontHeight;
-    sideCutoutRightFrontDepth = sideCutoutLeftFrontDepth;
-    sideCutoutRightFrontX = sideCutoutLeftFrontX;
-    sideCutoutRightFrontY = -sideCutoutLeftFrontY;
-    sideCutoutRightFrontZ = sideCutoutLeftFrontZ;
-//side cutouts
-//sideCutoutRightRear Dimensions
-    sideCutoutRightRearWidth = sideCutoutLeftFrontWidth;
-    sideCutoutRightRearHeight = sideCutoutLeftFrontHeight;
-    sideCutoutRightRearDepth = sideCutoutLeftFrontDepth;
-    sideCutoutRightRearX = sideCutoutLeftRearX;
-    sideCutoutRightRearY = -sideCutoutLeftFrontY;
-    sideCutoutRightRearZ = sideCutoutLeftFrontZ;
-//rear cutouts
-//rearCutoutLeft Dimensions
-    rearCutoutCenters = 9.5;
-    rearCutoutLeftWidth = 4;
-    rearCutoutLeftHeight = 2;
-    rearCutoutLeftDepth = 34+1;
-    rearCutoutLeftX = handleX-handleWidth/2+rearCutoutLeftWidth/2-2;
-    rearCutoutLeftY = -rearCutoutCenters/2;
-    rearCutoutLeftZ = rearCutoutLeftDepth-batteryBaseBumpDepth-2;
-//rearCutoutRight Dimensions
-    rearCutoutRightWidth = rearCutoutLeftWidth;
-    rearCutoutRightHeight = rearCutoutLeftHeight;
-    rearCutoutRightDepth = rearCutoutLeftDepth;
-    rearCutoutRightX = rearCutoutLeftX;
-    rearCutoutRightY = -rearCutoutLeftY;
-    rearCutoutRightZ = rearCutoutLeftZ;
-//batteryTerminalLeft Dimensions
-    batteryTerminalExtra = 2;
-    bateryTerminalCenter = 9;
-    batteryTerminalLeftWidth = 8+batteryTerminalExtra;
-    batteryTerminalLeftHeight = 1+batteryTerminalExtra;
-    batteryTerminalLeftDepth = 20+batteryTerminalExtra;
-    batteryTerminalLeftX = handleX+handleWidth/2-27;
-    batteryTerminalLeftY = bateryTerminalCenter/2;
-    batteryTerminalLeftZ = handleDepth-handleExtra;
-//batteryTerminalRight Dimensions
-    batteryTerminalRightWidth = batteryTerminalLeftWidth;
-    batteryTerminalRightHeight = batteryTerminalLeftHeight;
-    batteryTerminalRightDepth = batteryTerminalLeftDepth;
-    batteryTerminalRightX = batteryTerminalLeftX;
-    batteryTerminalRightY = -batteryTerminalLeftY;
-    batteryTerminalRightZ = batteryTerminalLeftZ;
-//screwHoleUpper Dimensions
-    screwHoleUpperWidth = 0;
-    screwHoleUpperHeight = 0;
-    screwHoleUpperDepth = 0;
-    screwHoleUpperX = 0;
-    screwHoleUpperY = 0;
-    //screwHoleUpperZ = 55;
-    //batteryTerminalExtra = 4;
-//batteryTerminalClearanceLeft Dimensions
-    batteryTerminalClearanceLeftWidth = batteryTerminalLeftWidth+batteryTerminalExtra*.75;
-    batteryTerminalClearanceLeftHeight = batteryTerminalLeftHeight+batteryTerminalExtra;
-    batteryTerminalClearanceLeftDepth = batteryTerminalLeftDepth+batteryTerminalExtra*5;
-    batteryTerminalClearanceLeftX = batteryTerminalLeftX-(batteryTerminalExtra*.75/2);
-    batteryTerminalClearanceLeftY = batteryTerminalLeftY;
-    batteryTerminalClearanceLeftZ = batteryTerminalLeftZ;
-//batteryTerminalClearanceRight Dimensions
-    batteryTerminalClearanceRightWidth = batteryTerminalClearanceLeftWidth;
-    batteryTerminalClearanceRightHeight = batteryTerminalClearanceLeftHeight;
-    batteryTerminalClearanceRightDepth = batteryTerminalClearanceLeftDepth;
-    batteryTerminalClearanceRightX = batteryTerminalClearanceLeftX;
-    batteryTerminalClearanceRightY = -batteryTerminalClearanceLeftY;
-    batteryTerminalClearanceRightZ = batteryTerminalClearanceLeftZ;
-    
-    if(!batteryTerminalClearance){
-        difference(){
-//batteryBaseBump oi        
-            oi("cube",x=batteryBaseBumpX,y=batteryBaseBumpY,z=batteryBaseBumpZ,width=batteryBaseBumpWidth,height=batteryBaseBumpHeight,depth=batteryBaseBumpDepth,color=color);
-            translate([batteryBaseBumpShift+handleShift+plasticThickness,0,-batteryBaseBumpDepth]){
-                drawDysonV6(color,bottomClearance=false);
+ 
+    translate([0,0,20]){
+        union(){
+            difference(){
+                oii("cubeRounded","batteryClipBoltBracket",color); 
+                drawDysonV6HandleBottomClearance(color); 
+//////batteryClipBoltAA oi
+                oii("holeM6","batteryClipBoltAA",color); 
+//////batteryClipBoltAB oi
+                oii("holeM6","batteryClipBoltAB",color);
             }
-        }
-//batteryBase oi    
-        oi("cubeRounded",x=batteryBaseX,y=batteryBaseY,z=batteryBaseZ,rad=batteryBaseHeight/2,width=batteryBaseWidth,height=batteryBaseHeight,depth=batteryBaseDepth,rotX=90,color=color);
-        difference(){
-            union(){
-//HANDLE
-                oi("cubeRounded",x=handleX,y=0,z=handleZ,rad=handleDiameter/2,depth=handleDepth,height=handleDiameter,width=handleWidth,rotY=-handleTilt,color=color);
-                difference(){
-                    union(){
-                        difference(){
-                            union(){
-//screwBracket oi                            
-                                oi("cube",x=screwBracketX,y=screwBracketY,z=screwBracketZ-screwBracketClearance,width=screwBracketWidth,height=screwBracketHeight,depth=screwBracketDepth-screwBracketClearance,color=color);
-//screwBracketDropPiece oi
-                                oi("cube",x=screwBracketDropPieceX,y=screwBracketDropPieceY,z=screwBracketDropPieceZ,width=screwBracketDropPieceWidth,height=screwBracketDropPieceHeight,depth=screwBracketDropPieceDepth,color=color);
-                            }
-//screwBracketSweitchClearance oi
-                        oi("cube",x=screwBracketSwitchClearanceX,y=screwBracketSwitchClearanceY,z=screwBracketSwitchClearanceZ,width=screwBracketSwitchClearanceWidth,height=screwBracketSwitchClearanceHeight,depth=screwBracketSwitchClearanceDepth,color=color);
-                    }
-//screwBracketCylinder oi                
-                        oi("cylinder",x=screwBracketCylinderX,y=screwBracketCylinderY,z=screwBracketCylinderZ,rad=screwBracketCylinderRad,height=screwBracketCylinderHeight,depth=screwBracketCylinderDepth,rotY=90,color=color);
-                    }   
-                }
-            }
-//sideCutoutLeftFront oi        
-            oi("cube",x=sideCutoutLeftFrontX,y=sideCutoutLeftFrontY,z=sideCutoutLeftFrontZ,width=sideCutoutLeftFrontWidth,height=sideCutoutLeftFrontHeight,depth=sideCutoutLeftFrontDepth,rotY=-handleTilt,color=color);
-//sideCutoutLeftRear oi
-            oi("cube",x=sideCutoutLeftRearX,y=sideCutoutLeftRearY,z=sideCutoutLeftRearZ,width=sideCutoutLeftRearWidth,height=sideCutoutLeftRearHeight,depth=sideCutoutLeftRearDepth,rotY=-handleTilt,color=color);
-//sideCutoutRightFront oi        
-            oi("cube",x=sideCutoutRightFrontX,y=sideCutoutRightFrontY,z=sideCutoutRightFrontZ,width=sideCutoutRightFrontWidth,height=sideCutoutRightFrontHeight,depth=sideCutoutRightFrontDepth,rotY=-handleTilt,color=color);
-//sideCutoutRightRear oi        
-            oi("cube",x=sideCutoutRightRearX,y=sideCutoutRightRearY,z=sideCutoutRightRearZ,width=sideCutoutRightRearWidth,height=sideCutoutRightRearHeight,depth=sideCutoutRightRearDepth,rotY=-handleTilt,color=color);
-//rearcutoutLeft oi    
-            oi("cube",x=rearCutoutLeftX,y=rearCutoutLeftY,z=rearCutoutLeftZ,width=rearCutoutLeftWidth,height=rearCutoutLeftHeight,depth=rearCutoutLeftDepth,rotY=-handleTilt,color=color);
-//rearCutoutRight oi        
-            oi("cube",x=rearCutoutRightX,y=rearCutoutRightY,z=rearCutoutRightZ,width=rearCutoutRightWidth,height=rearCutoutRightHeight,depth=rearCutoutRightDepth,rotY=-handleTilt,color=color);
-//BATTERYTERMINALLEFT        
-            oi("cube",x=batteryTerminalLeftX,y=batteryTerminalLeftY,z=batteryTerminalLeftZ,width=batteryTerminalLeftWidth,height=batteryTerminalLeftHeight,depth=batteryTerminalLeftDepth,rotY=-handleTilt,color=color);
-//BATTERYTERMINALRIGHT oi        
-            oi("cube",x=batteryTerminalRightX,y=batteryTerminalRightY,z=batteryTerminalRightZ,width=batteryTerminalRightWidth,height=batteryTerminalRightHeight,depth=batteryTerminalRightDepth,rotY=-handleTilt,color=color);
-//SCREWHOLEUPPER oi
-            oi("holeM3",x=screwHoleUpperX,y=screwHoleUpperY,z=screwHoleUpperZ,width=screwHoleUpperWidth,height=screwHoleUpperHeight,depth=screwHoleUpperDepth,rotY=90,color=color);
-        }    
-    }
-//BATTERYTERMINAL CLEARANCE DRAWING ONLY    
-    else{
-//BATTERYTERMINALCLEARANCELEFT oi        
-            oi("cube",x=batteryTerminalClearanceLeftX,y=batteryTerminalClearanceLeftY,z=batteryTerminalClearanceLeftZ,width=batteryTerminalClearanceLeftWidth,height=batteryTerminalClearanceLeftHeight,depth=batteryTerminalClearanceLeftDepth,rotY=-handleTilt,color=color);
-//BATTERYTERMINALCLEARANCERIGHT oi        
-            oi("cube",x=batteryTerminalClearanceRightX,y=batteryTerminalClearanceRightY,z=batteryTerminalClearanceRightZ,width=batteryTerminalClearanceRightWidth,height=batteryTerminalClearanceRightHeight,depth=batteryTerminalClearanceRightDepth,rotY=-handleTilt,color=color);
+
+
             
-        }  
+            intersection(){        
+                thick = 70;
+                width=120;
+                height=35;
+                depth=thick;       
+                x=-width+65;
+                y=0;
+                z=thick-10;
+    //////cutout dimensions
+                cutoutW = width-70;
+                cutoutH = height-10;
+                cutoutD = depth;
+                cutoutX = x-16;
+                cutoutY = y;
+                cutoutZ = z;
+
+                difference(){
+                    oi("cubeRounded",x=x,y=y,z=z,width=width,height=height,depth=depth,color=color);
+                    drawDysonBatteryTerminals(color);
+                }
+                difference(){
+                    drawDysonV6Battery(color);
+    //////cutout oi
+                    //oi("cubeRounded",x=cutoutX,y=cutoutY,z=cutoutZ,width=cutoutW,height=cutoutH,depth=cutoutD,color=color,name="cutout");
+                }
+
+            }   
+        }
+    }
 }
+
+
+module drawDysonV6Handle(color="red", dustBinOnly=false, screwHoleOnly=false){
+    difference(){
+        union(){
+            difference(){
+    ////////////Main Handle Assembly    
+                union(){
+    //////barrel oi    
+                    oii("cylinder","barrel",color);  
+    //////handle oi
+                    oii("cubeRounded","handle",color);    
+    //////frontSupportMain oi
+                oii("cube","frontSupportMain",color);   
+    //////bottom oi
+                oii("cube","bottom",color);        
+                }
+    //remove the overhang out the bottom
+                oi("cube",x=0,y=0,z=0,width=1000,height=1000,depth=100,color=color);        
+            }
+    ///////////Insert bottom screw dangle here
+//////front screw hole
+            drawDysonBatteryFrontScrewPositive(color) ;
+//////frontSupportBase oi
+    oii("cube","frontSupportBase",color);                          
+        }
+////////////Remove Dustbin here
+        drawDysonV6DustBin(color,,noCutout=true);
+//////frontScrew
+            drawDysonBatteryFrontScrewNegative(color);        
+    }
+
+}
+
+module drawDysonV6HandleBottomClearance(color){
+    linear_extrude(100){
+        projection(){
+            difference(){
+                union(){
+                    difference(){
+            ////////////Main Handle Assembly    
+                        union(){
+            //////barrel oi    
+                            //oii("cylinder","barrel",color);  
+            //////handle oi
+                            oii("cubeRounded","handle",color);    
+            //////frontSupportBase oi
+                        oii("cube","frontSupportBase",color);          
+            //////frontSupportMain oi
+                            oii("cube","frontSupportMain",color);   
+            //////bottom oi
+                        oii("cube","bottom",color);        
+                        }
+            //remove the overhang out the bottom
+                        oi("cube",x=0,y=0,z=0,width=1000,height=1000,depth=100,color=color);        
+                    }
+            ///////////Insert bottom screw dangle here
+
+                }
+        ////////////Remove Dustbin here
+            }
+        }
+    }
+
+}
+
+module drawDysonV6DustBin(color,noCutout=false){
+    difference(){
+        union(){
+//////dustBin oi
+        oii("cylinder","dustBin",color);
+//////dustbinClip oi
+        oii("cube","dustbinClip",color);   
+//////dustBinPlungerClearance oi
+    oii("cube","dustBinPlungerClearance",color);        
+
+        }
+////////////DustBin Subtractions        
+        union(){
+//////dustBinCutout oi            
+        if(!noCutout){
+            oii("cube","dustBinCutout",color);                         
+        }
+        }
+    }
+}
+
+
+module drawDysonV6Battery(color){
+    difference(){
+       drawDysonV6BatteryMain(color);
+       union(){
+        drawDysonV6DustBin(color);
+        
+       }
+    }
+}
+
+module drawDysonV6BatteryMain(color){
+
+////////////Remove Dyson Base from battery
+    difference(){
+////////////BatteryBase and bump together
+        union(){
+//////batteryBase oi
+            oii("cubeRounded","batteryBase",color); 
+//////batteryBaseBump oi
+            oii("cube","batteryBaseBump",color);        
+        }
+        union(){
+            drawDysonV6HandleBottomClearance(color);        
+            drawDysonV6Handle(color);
+            drawDysonBatteryFrontScrewNegative(color);
+        }
+    }
+
+//////batteryHandle oi
+    difference(){
+        //////battery handle positive
+        union(){
+            oii("cubeRounded","batteryHandle",color);  
+////////////Clearance for screw cylinder            
+            difference(){
+                union(){
+    //////screwBracket oi
+                oii("cube","screwBracket",color); 
+    //////screwBracketDrop oi
+                oii("cube","screwBracketDrop",color);   
+                }
+//////screwBracketSwitchClearance oi
+            oii("cube","screwBracketSwitchClearance",color);        
+                        }
+//////screwBracketCylinder oi
+            oii("cylinder","screwBracketCylinder",color);                  
+        }
+        //////battery handle negative
+        union(){            
+//////sideCutouts
+            oii("cube","sideCutoutLeftFront",color); 
+            oii("cube","sideCutoutLeftRear",color);  
+            oii("cube","sideCutoutRightFront",color);  
+            oii("cube","sideCutoutRightRear",color);  
+//////rearCutouts  
+            oii("cube","rearCutoutLeft",color);                                 
+            oii("cube","rearCutoutRight",color);
+//////batteryTerminalCutouts
+            drawDysonBatteryTerminals(color);
+
+//////screwHoleUpper oi
+            oii("holeM25D","screwHoleUpper",color);   
+//////screwHoleUpperCountersink oi
+            //Not needed as it passes through
+            //oii("capscrewM25D","screwHoleUpperCountersink",color);                
+                   
+
+        }
+    }
+}
+
+module drawDysonBatteryFrontScrewPositive(color){
+    difference(){
+//////frontScrewBump oi
+    oii("cubeRounded","frontScrewBump",color);
+////////////Clipping Boxes
+        oi("cube",x=0,y=0,z=10+0.25,width=1000,height=1000,depth=10);
+        oi("cube",x=gvv("frontScrewBumpX")-10-9-100/2,y=0,z=1000/2
+        ,width=110,height=1000,depth=1000);
+////////////Front Angle Clip   
+//////frontScrewAngleClipper oi
+        oii("cube","frontScrewAngleClipper",color);     
+    }
+}
+
+module drawDysonBatteryFrontScrewNegative(color){
+//////frontScrewHole oi
+difference(){
+    union(){
+        oii("holeM25D","frontScrewHole",color); 
+    //////frontScrewHoleCountersink oi
+        oii("capscrewM25D","frontScrewHoleCountersink",color);    
+    }
+    
+////////////Clipping Boxes
+    oi("cube",x=0,y=0,z=10+0.25,width=1000,height=1000,depth=10);
+}
+
+}
+
+module drawDysonBatteryTerminals(color){
+//////batteryTerminalCutouts
+            oii("cube","batteryTerminalLeft",color);
+            oii("cube","batteryTerminalRight",color);
+}
+
+
+
+
+module oii(type,name,color){
+    oi(type,x=gvv(str(name,"X")),y=gvv(str(name,"Y")),z=gvv(str(name,"Z")),width=gvv(str(name,"W")),height=gvv(str(name,"H")),depth=gvv(str(name,"D")),rad=gvv(str(name,"Radius")),rotX=gvv(str(name,"RotX")),rotY=gvv(str(name,"RotY")),rotZ=gvv(str(name,"RotZ")),color=color,name=name);
+}
+
+function gvv(name) =
+name=="TEST" ? "TEST":
+//////////////////Dyson V6 Handle
+    ////////////Variables
+    //////handleDiameter variable
+        name=="handleDiameter"      ? 28.5 :
+    //////bottomPieceWidth variable
+        name=="bottomPieceWidth"    ? 99-2.5:   
+    //////handleTilt variable
+        name=="handleTilt"      ? -13 :
+    //////frontSupportExtra variable
+        name=="frontSupportExtra"       ? 8 :    
+    ////////////Parts
+    //////barrel dimensions
+        name=="barrelW" ? 0 :
+        name=="barrelH" ? 0 :
+        name=="barrelD" ? 96 :
+        name=="barrelX" ? -(gvv("bottomPieceWidth")-gvv("barrelD")) :
+        name=="barrelY" ? 0 :
+        name=="barrelZ" ? 130 :
+        name=="barrelRadius" ? 70/2 : 
+        name=="barrelRotY"  ?   90 :   
+    //////handle dimensions
+        name=="handleW"     ? 42.5 :
+        name=="handleH"     ? gvv("handleDiameter") :
+        name=="handleD"     ? 120 :
+        name=="handleX"     ? -40.5 :
+        name=="handleY"     ? 0 :
+        name=="handleZ"     ? gvv("handleD")-20 :
+        name=="handleRadius"    ? gvv("handleDiameter")/2 :
+        name=="handleRotX"      ? 0 :
+        name=="handleRotY"      ? gvv("handleTilt") :
+        name=="handleRotZ"      ? 0 :  
+    //////bottom dimensions
+        name=="bottomW"     ? gvv("bottomPieceWidth")-gvv("handleDiameter")/2 :
+        name=="bottomH"     ? gvv("handleDiameter") :
+        name=="bottomD"     ? 4.5 :
+        name=="bottomX"     ? -gvv("bottomW")/2-gvv("handleDiameter")/2 :
+        name=="bottomY"     ? 0 :
+        name=="bottomZ"     ? gvv("bottomD") :
+        name=="bottomRadius"        ? 0 :
+        name=="bottomRotX"      ? 0 :
+        name=="bottomRotY"      ? 0 :
+        name=="bottomRotZ"      ? 0 :
+    //////frontSupportBase dimensions
+        name=="frontSupportBaseExtra"   ? 2  :
+        name=="frontSupportBaseW"       ? 13.5 + gvv("frontSupportBaseExtra") :
+        name=="frontSupportBaseH"       ? gvv("handleDiameter") :
+        name=="frontSupportBaseD"       ? 20 :
+        name=="frontSupportBaseX"       ? -gvv("bottomPieceWidth")+gvv("frontSupportBaseW")/2 - gvv("frontSupportBaseExtra") :
+        name=="frontSupportBaseY"       ? 0 :
+        name=="frontSupportBaseZ"       ? 18.5 :
+        name=="frontSupportBaseRadius"      ? 0 :
+        name=="frontSupportBaseRotX"        ? 0 :
+        name=="frontSupportBaseRotY"        ? 0 :
+        name=="frontSupportBaseRotZ"        ? 0 :       
+    //////frontSupportMain dimensions
+        name=="frontSupportMainW"       ? 9 :
+        name=="frontSupportMainH"       ? gvv("handleDiameter") :
+        name=="frontSupportMainD"       ? 95+gvv("frontSupportExtra") :
+        name=="frontSupportMainX"       ? -gvv("bottomPieceWidth")+gvv("frontSupportBaseW")/2 -gvv("frontSupportBaseW")/2+gvv("frontSupportMainW")/2:
+        name=="frontSupportMainY"       ? 0 :
+        name=="frontSupportMainZ"       ? gvv("frontSupportMainD") :
+        name=="frontSupportMainRadius"      ? 0 :
+        name=="frontSupportMainRotX"        ? 0 :
+        name=="frontSupportMainRotY"        ? 0 :
+        name=="frontSupportMainRotZ"        ? 0 :
+////////////Dyson V6 Dust Bin
+    //////dustBin dimensions
+        name=="dustBinW"        ? 0 :
+        name=="dustBinH"        ? 0 :
+        name=="dustBinD"        ? 129 :
+        name=="dustBinX"        ? -gvv("bottomPieceWidth")-gvv("dustBinRadius") +0.5:
+        name=="dustBinY"        ? 0 :
+        name=="dustBinZ"        ? gvv("dustBinD")-28 :
+        name=="dustBinRadius"       ? 107/2 :
+        name=="dustBinRotX"     ? 0 :
+        name=="dustBinRotY"     ? 0 :
+        name=="dustBinRotZ"     ? 0 :
+    //////dustBinCutout dimensions
+        name=="dustBinCutoutW"      ? 8 :
+        name=="dustBinCutoutH"      ? 12 :
+        name=="dustBinCutoutD"      ? 30 :
+        name=="dustBinCutoutX"      ? gvv("dustBinX")+gvv("dustBinRadius") :
+        name=="dustBinCutoutY"      ? -gvv("dustBinCutoutH/2")-3 :
+        name=="dustBinCutoutZ"      ? gvv("dustBinZ")-90 :
+        name=="dustBinCutoutRadius"     ? 0 :
+        name=="dustBinCutoutRotX"       ? 0 :
+        name=="dustBinCutoutRotY"       ? 0 :
+        name=="dustBinCutoutRotZ"       ? 0 :
+//////dustbinClip dimensions
+    name=="dustbinClipW"        ? 10 :
+    name=="dustbinClipH"        ? 3 :
+    name=="dustbinClipD"        ? 26 :
+    name=="dustbinClipX"        ? gvv("dustBinX")+gvv("dustBinRadius")+gvv("dustbinClipW")/2-2 :
+    name=="dustbinClipY"        ? -12 :
+    name=="dustbinClipZ"        ? gvv("dustBinZ")-80 :
+    name=="dustbinClipRadius"       ? 0 :
+    name=="dustbinClipRotX"     ? 0 :
+    name=="dustbinClipRotY"     ? 0 :
+    name=="dustbinClipRotZ"     ? 0 :
+//////dustBinPlungerClearance dimensions
+    name=="dustBinPlungerClearanceW"        ? 8 :
+    name=="dustBinPlungerClearanceH"        ? 8 :
+    name=="dustBinPlungerClearanceD"        ? 65 :
+    name=="dustBinPlungerClearanceX"        ? gvv("dustBinX")+gvv("dustBinRadius")+gvv("dustbinClipW")/2-3 :
+    name=="dustBinPlungerClearanceY"        ? 8 :
+    name=="dustBinPlungerClearanceZ"        ? gvv("dustBinZ")-63 :
+    name=="dustBinPlungerClearanceRadius"       ? 0 :
+    name=="dustBinPlungerClearanceRotX"     ? 0 :
+    name=="dustBinPlungerClearanceRotY"     ? 0 :
+    name=="dustBinPlungerClearanceRotZ"     ? 0 :        
+            
+////////////Dyson V6 Battery
+    //////handleDiameterBattery variable
+    name=="handleDiameterBattery"           ? 23-2 :
+//////batteryBaseBumpShift variable
+    name=="batteryBaseBumpShift"            ? -20 :    
+//////batteryBaseBumpCutoutDepth variable
+    name=="batteryBaseBumpCutoutDepth"      ? 4 :    
+//////plasticThickness variable
+    name=="plasticThickness"                ? 2.5 :
+//////handleShift variable
+    name=="handleShift"                     ? -8 :        
+//////vacuumShift variable
+    name=="batteryShiftX"        ? gvv("batteryBaseBumpShift")+gvv("handleShift")+gvv("plasticThickness")-2 :    
+
+
+//////////// Parts    
+//////batteryHandle dimensions
+    name=="batteryHandleW"      ? 39-2 :
+    name=="batteryHandleH"      ? gvv("handleDiameterBattery") :
+    name=="batteryHandleD"      ? 20+32-6+gvv("batteryBaseBumpCutoutDepth") :
+    name=="batteryHandleX"      ? 27+gvv("batteryBaseBumpShift")+gvv("handleShift")+gvv("batteryShiftX")+2 :
+    name=="batteryHandleY"      ? 0 :
+    name=="batteryHandleZ"      ? gvv("batteryHandleD")-20 :
+    name=="batteryHandleRadius"     ? gvv("handleDiameterBattery")/2 :
+    name=="batteryHandleRotX"       ? 0 :
+    name=="batteryHandleRotY"       ? gvv("handleTilt") :
+    name=="batteryHandleRotZ"       ? 0 :
+//////batteryBase dimensions
+    name=="batteryBaseW"        ? gvv("batteryBaseBumpW")+17 :
+    name=="batteryBaseH"        ? 28 :
+    name=="batteryBaseD"        ? 75 :
+    name=="batteryBaseX"        ? -gvv("batteryBaseW")/2-gvv("batteryShiftX") :
+    name=="batteryBaseY"        ? -gvv("batteryBaseD")/2 :
+    name=="batteryBaseZ"        ? -gvv("batteryBaseH")/2 :
+    name=="batteryBaseRadius"       ? gvv("batteryBaseH")/2 :
+    name=="batteryBaseRotX"     ? 90 :
+    name=="batteryBaseRotY"     ? 0 :
+    name=="batteryBaseRotZ"     ? 0 :
+//////batteryBaseBump dimensions
+    name=="batteryBaseBumpW"        ? 109 :
+    name=="batteryBaseBumpH"        ? 42 :
+    name=="batteryBaseBumpD"        ? gvv("batteryBaseBumpCutoutDepth")+10 :
+    name=="batteryBaseBumpX"        ? -gvv("batteryBaseBumpW")/2+gvv("batteryBaseBumpShift")-gvv("batteryShiftX") :
+    name=="batteryBaseBumpY"        ? 0 :
+    name=="batteryBaseBumpZ"        ? gvv("batteryBaseBumpCutoutDepth") :
+    name=="batteryBaseBumpRadius"       ? 0 :
+    name=="batteryBaseBumpRotX"     ? 0 :
+    name=="batteryBaseBumpRotY"     ? 0 :
+    name=="batteryBaseBumpRotZ"     ? 0 :
+
+
+////////////Side Cutouts
+//////sideCutoutX variable
+    name=="sideCutoutX"     ? 24.5 :
+//////sideCutoutCenters variable
+    name=="sideCutoutCenters"       ? 4 :    
+//////sideCutoutLeftFront dimensions
+    name=="sideCutoutLeftFrontW"        ? 3 :
+    name=="sideCutoutLeftFrontH"        ? 4 :
+    name=="sideCutoutLeftFrontD"        ? 44 :
+    name=="sideCutoutLeftFrontX"        ? gvv("batteryHandleX")+gvv("batteryHandleW")/2-gvv("sideCutoutX") :
+    name=="sideCutoutLeftFrontY"        ? -gvv("handleDiameterBattery")/2+gvv("sideCutoutLeftFrontHeight")/2-1 :
+    name=="sideCutoutLeftFrontZ"        ? gvv("sideCutoutLeftFrontD")-gvv("batteryBaseBumpCutoutD")-2 :
+    name=="sideCutoutLeftFrontRadius"       ? 0 :
+    name=="sideCutoutLeftFrontRotX"     ? 0 :
+    name=="sideCutoutLeftFrontRotY"     ? gvv("handleTilt") :
+    name=="sideCutoutLeftFrontRotZ"     ? 0 :
+//////sideCutoutLeftRear dimensions
+    name=="sideCutoutLeftRearW"        ? gvv("sideCutoutLeftFrontW") :
+    name=="sideCutoutLeftRearH"        ? gvv("sideCutoutLeftFrontH") :
+    name=="sideCutoutLeftRearD"        ? gvv("sideCutoutLeftFrontD") :
+    name=="sideCutoutLeftRearX"        ? gvv("sideCutoutLeftFrontX")-gvv("sideCutoutCenters") :
+    name=="sideCutoutLeftRearY"        ? gvv("sideCutoutLeftFrontY") :
+    name=="sideCutoutLeftRearZ"        ? gvv("sideCutoutLeftFrontZ") :
+    name=="sideCutoutLeftRearRotY"     ? gvv("handleTilt") :
+//////sideCutoutRightFront dimensions
+    name=="sideCutoutRightFrontW"        ? gvv("sideCutoutLeftFrontW") :
+    name=="sideCutoutRightFrontH"        ? gvv("sideCutoutLeftFrontH") :
+    name=="sideCutoutRightFrontD"        ? gvv("sideCutoutLeftFrontD") :
+    name=="sideCutoutRightFrontX"        ? gvv("sideCutoutLeftFrontX") :
+    name=="sideCutoutRightFrontY"        ? -gvv("sideCutoutLeftFrontY") :
+    name=="sideCutoutRightFrontZ"        ? gvv("sideCutoutLeftFrontZ") :
+    name=="sideCutoutRightFrontRotY"     ? gvv("handleTilt") :
+//////sideCutoutRightRear dimensions
+    name=="sideCutoutRightRearW"        ? gvv("sideCutoutLeftFrontW") :
+    name=="sideCutoutRightRearH"        ? gvv("sideCutoutLeftFrontH") :
+    name=="sideCutoutRightRearD"        ? gvv("sideCutoutLeftFrontD") :
+    name=="sideCutoutRightRearX"        ? gvv("sideCutoutLeftFrontX")-gvv("sideCutoutCenters") :
+    name=="sideCutoutRightRearY"        ? -gvv("sideCutoutLeftFrontY") :
+    name=="sideCutoutRightRearZ"        ? gvv("sideCutoutLeftFrontZ") :
+    name=="sideCutoutRightRearRotY"     ? gvv("handleTilt") :
+
+////////////Rear Cutouts
+//////rearCutoutCenters variable
+    name=="rearCutoutCenters"       ? 9.5 :
+//////rearCutoutLeft dimensions
+    name=="rearCutoutLeftW"     ? 4 :
+    name=="rearCutoutLeftH"     ? 2 :
+    name=="rearCutoutLeftD"     ? 34+1 :
+    name=="rearCutoutLeftX"     ? gvv("batteryHandleX")-gvv("batteryHandleW")/2+gvv("rearCutoutLeftW")/2-2 :
+    name=="rearCutoutLeftY"     ? gvv("rearCutoutCenters")/2 :
+    name=="rearCutoutLeftZ"     ? gvv("rearCutoutLeftD")-gvv("batteryBaseBumpCutoutD")-2 :
+    name=="rearCutoutLeftRadius"        ? 0 :
+    name=="rearCutoutLeftRotX"      ? 0 :
+    name=="rearCutoutLeftRotY"      ? gvv("handleTilt") :
+    name=="rearCutoutLeftRotZ"      ? 0 :      
+//////rearCutoutRight dimensions
+    name=="rearCutoutRightW"     ? gvv("rearCutoutLeftW") :
+    name=="rearCutoutRightH"     ? gvv("rearCutoutLeftH") :
+    name=="rearCutoutRightD"     ? gvv("rearCutoutLeftD") :
+    name=="rearCutoutRightX"     ? gvv("rearCutoutLeftX") :
+    name=="rearCutoutRightY"     ? -gvv("rearCutoutCenters")/2 :
+    name=="rearCutoutRightZ"     ? gvv("rearCutoutLeftZ") :
+    name=="rearCutoutRightRadius"        ? 0 :
+    name=="rearCutoutRightRotX"      ? 0 :
+    name=="rearCutoutRightRotY"      ? gvv("handleTilt") :
+    name=="rearCutoutRightRotZ"      ? 0 :      
+
+////////////Battery Terminal Cutouts
+//////batteryTerminalExtra variable
+    name=="batteryTerminalExtra"        ? 4 :
+    name=="batteryTerminalExtraZ"        ? 50 :
+//////batteryTerminalCenters variable
+    name=="batteryTerminalCenters"      ? 9 :    
+//////batteryTerminalLeft dimensions
+    name=="batteryTerminalLeftW"        ? 8+gvv("batteryTerminalExtra") :
+    name=="batteryTerminalLeftH"        ? 1+gvv("batteryTerminalExtra") :
+    name=="batteryTerminalLeftD"        ? 30+gvv("batteryTerminalExtraZ") :
+    name=="batteryTerminalLeftX"        ? gvv("batteryHandleX")+gvv("batteryHandleW")/2-27 :
+    name=="batteryTerminalLeftY"        ? gvv("batteryTerminalCenters")/2 :
+    name=="batteryTerminalLeftZ"        ? gvv("batteryTerminalLeftD")-gvv("batteryTerminalExtraZ")-1 :
+    name=="batteryTerminalLeftRotY"     ? gvv("handleTilt") :
+//////batteryTerminalRight dimensions
+    name=="batteryTerminalRightW"        ? gvv("batteryTerminalLeftW") :
+    name=="batteryTerminalRightH"        ? gvv("batteryTerminalLeftH") :
+    name=="batteryTerminalRightD"        ? gvv("batteryTerminalLeftD") :
+    name=="batteryTerminalRightX"        ? gvv("batteryTerminalLeftX") :
+    name=="batteryTerminalRightY"        ? -gvv("batteryTerminalCenters")/2 :
+    name=="batteryTerminalRightZ"        ? gvv("batteryTerminalLeftZ") :
+    name=="batteryTerminalRightRotY"     ? gvv("handleTilt") :
+//////batteryTerminalLeft dimensions
+    name=="batteryTerminalLeftW"        ? 8+gvv("batteryTerminalExtra") :
+    name=="batteryTerminalLeftH"        ? 1+gvv("batteryTerminalExtra") :
+    name=="batteryTerminalLeftD"        ? 30+gvv("batteryTerminalExtra") :
+    name=="batteryTerminalLeftX"        ? gvv("batteryHandleX")+gvv("batteryHandleW")/2-27 :
+    name=="batteryTerminalLeftY"        ? gvv("batteryTerminalCenters")/2 :
+    name=="batteryTerminalLeftZ"        ? gvv("batteryTerminalLeftD") :
+    name=="batteryTerminalLeftRotY"     ? gvv("handleTilt") :
+//////batteryTerminalRight dimensions
+    name=="batteryTerminalRightW"        ? gvv("batteryTerminalLeftW") :
+    name=="batteryTerminalRightH"        ? gvv("batteryTerminalLeftH") :
+    name=="batteryTerminalRightD"        ? gvv("batteryTerminalLeftD") :
+    name=="batteryTerminalRightX"        ? gvv("batteryTerminalLeftX") :
+    name=="batteryTerminalRightY"        ? -gvv("batteryTerminalCenters")/2 :
+    name=="batteryTerminalRightZ"        ? gvv("batteryTerminalLeftZ") :
+    name=="batteryTerminalRightRotY"     ? gvv("handleTilt") :    
+
+////////////Screw Bracket
+//////screwBracketDrop variable
+    name=="screwBracketDrop"        ? 5 :
+
+//////screwBracket dimensions
+    name=="screwBracketW"       ? 3 :
+    name=="screwBracketH"       ? 10 :
+    name=="screwBracketD"       ? gvv("screwHoleUpperZ")+5-gvv("screwBracketCylinderRadius") :
+    name=="screwBracketX"       ? gvv("batteryHandleX")+gvv("batteryHandleW")/2-10-5-2 :
+    name=="screwBracketY"       ? 0 :
+    name=="screwBracketZ"       ? gvv("screwBracketD") :
+//////screwBracketDrop dimensions
+    name=="screwBracketDropW"       ? 10 :
+    name=="screwBracketDropH"       ? gvv("screwBracketH") :
+    name=="screwBracketDropD"       ? gvv("screwBracketD")-gvv("screwBracketDrop") :
+    name=="screwBracketDropX"       ? gvv("screwBracketX") :
+    name=="screwBracketDropY"       ? 0 :
+    name=="screwBracketDropZ"       ? gvv("screwBracketZ")-gvv("screwBracketDrop") :
+//////screwBracketSwitchClearance dimensions
+    name=="screwBracketSwitchClearanceW"        ? 10 :
+    name=="screwBracketSwitchClearanceH"        ? 10 :
+    name=="screwBracketSwitchClearanceD"        ? 30 :
+    name=="screwBracketSwitchClearanceX"        ? gvv("screwBracketDropX") :
+    name=="screwBracketSwitchClearanceY"        ? gvv("screwBracketDropY")+7 :
+    name=="screwBracketSwitchClearanceZ"        ? gvv("screwBracketDropZ")+20 :
+//////screwBracketCylinder dimensions
+    name=="screwBracketCylinderW"       ? 0 :
+    name=="screwBracketCylinderH"       ? 0 :
+    name=="screwBracketCylinderD"       ? gvv("screwBracketW") :
+    name=="screwBracketCylinderX"       ? gvv("screwBracketX")+gvv("screwBracketCylinderD")/2 :
+    name=="screwBracketCylinderY"       ? 0 :
+    name=="screwBracketCylinderZ"       ? gvv("screwHoleUpperZ") :
+    name=="screwBracketCylinderRadius"      ? 5 :
+    name=="screwBracketCylinderRotX"        ? 0 :
+    name=="screwBracketCylinderRotY"        ? 90 :
+    name=="screwBracketCylinderRotZ"        ? 0 :  
+//////screwHoleUpper dimensions
+    name=="screwHoleUpperW"     ? 0 :
+    name=="screwHoleUpperH"     ? 0 :
+    name=="screwHoleUpperD"     ? 0 :
+    name=="screwHoleUpperX"     ? 0 :
+    name=="screwHoleUpperY"     ? 0 :
+    name=="screwHoleUpperZ"     ? 56 :
+    name=="screwHoleUpperRadius"        ? 0 :
+    name=="screwHoleUpperRotX"      ? 0 :
+    name=="screwHoleUpperRotY"      ? 90 :
+    name=="screwHoleUpperRotZ"      ? 0 :   
+//////screwHoleUpperCountersink dimensions
+    name=="screwHoleUpperCountersinkW"      ? 0 :
+    name=="screwHoleUpperCountersinkH"      ? 0 :
+    name=="screwHoleUpperCountersinkD"      ? 0 :
+    name=="screwHoleUpperCountersinkX"      ? gvv("screwBracketCylinderX")+0:
+    name=="screwHoleUpperCountersinkY"      ? 0 :
+    name=="screwHoleUpperCountersinkZ"      ? gvv("screwHoleUpperZ") :
+    name=="screwHoleUpperCountersinkRadius"     ? 0 :
+    name=="screwHoleUpperCountersinkRotX"       ? 0 :
+    name=="screwHoleUpperCountersinkRotY"       ? 90 :
+    name=="screwHoleUpperCountersinkRotZ"       ? 0 :
+////////////Front Screw Hole
+//////frontScrewClearance variable
+    name=="frontScrewClearance"     ? 0.5 :
+//////frontScrewTilt variable
+    name=="frontScrewTilt"      ? 90-30 :    
+//////frontScrewBump dimensions
+    name=="frontScrewBumpW"     ? 5+gvv("frontScrewClearance") :
+    name=="frontScrewBumpH"     ? 11+gvv("frontScrewClearance") :
+    name=="frontScrewBumpD"     ? 25+gvv("frontScrewClearance") :
+    name=="frontScrewBumpX"     ? -gvv("bottomPieceWidth")+14 :
+    name=="frontScrewBumpY"     ? 0 :
+    name=="frontScrewBumpZ"     ? 4.25 :
+    name=="frontScrewBumpRadius"        ? 5/2 :
+    name=="frontScrewBumpRotX"      ? gvv("frontScrewTilt") :
+    name=="frontScrewBumpRotY"      ? 0 :
+    name=="frontScrewBumpRotZ"      ? 90 :   
+//////frontScrewHole dimensions
+    name=="frontScrewHoleW"     ? 0 :
+    name=="frontScrewHoleH"     ? 0 :
+    name=="frontScrewHoleD"     ? 30 :
+    name=="frontScrewHoleX"     ? gvv("frontScrewBumpX") :
+    name=="frontScrewHoleY"     ? gvv("frontScrewBumpY") :
+    name=="frontScrewHoleZ"     ? gvv("frontScrewBumpZ")-2 :
+    name=="frontScrewHoleRadius"        ? 0 :
+    name=="frontScrewHoleRotX"      ? 0 :
+    name=="frontScrewHoleRotY"      ? gvv("frontScrewTilt") :
+    name=="frontScrewHoleRotZ"      ? 0 :
+//////frontScrewHoleCountersink dimensions
+    name=="frontScrewHoleCountersinkW"      ? 0 :
+    name=="frontScrewHoleCountersinkH"      ? 0 :
+    name=="frontScrewHoleCountersinkD"      ? 10 :
+    name=="frontScrewHoleCountersinkX"      ? gvv("frontScrewHoleX")-15 :
+    name=="frontScrewHoleCountersinkY"      ? 0 :
+    name=="frontScrewHoleCountersinkZ"      ? gvv("frontScrewHoleZ")-8.5 :
+    name=="frontScrewHoleCountersinkRadius"     ? 0 :
+    name=="frontScrewHoleCountersinkRotX"       ? 0 :
+    name=="frontScrewHoleCountersinkRotY"       ? gvv("frontScrewTilt") :
+    name=="frontScrewHoleCountersinkRotZ"       ? 0 :       
+//////frontScrewAngleClipper dimensions
+    name=="frontScrewAngleClipperW"     ? 10 :
+    name=="frontScrewAngleClipperH"     ? 100 :
+    name=="frontScrewAngleClipperD"     ? 100 :
+    name=="frontScrewAngleClipperX"     ? gvv("frontScrewBumpX")-23.25-gvv("frontScrewAngleClipperW")/2 :
+    name=="frontScrewAngleClipperY"     ? 0 :
+    name=="frontScrewAngleClipperZ"     ? gvv("frontScrewHoleZ")+gvv("frontScrewAngleClipperD")/2 :
+    name=="frontScrewAngleClipperRadius"        ? 0 :
+    name=="frontScrewAngleClipperRotX"      ? 0 :
+    name=="frontScrewAngleClipperRotY"      ? -10 :
+    name=="frontScrewAngleClipperRotZ"      ? 0 :
+//////batteryClipBoltBracket dimensions
+    name=="batteryClipBoltBracketW"     ? 20 :
+    name=="batteryClipBoltBracketH"     ? 65 :
+    name=="batteryClipBoltBracketD"     ? 14 :
+    name=="batteryClipBoltBracketX"     ? 0-5 :
+    name=="batteryClipBoltBracketY"     ? 0 :
+    name=="batteryClipBoltBracketZ"     ? gvv("batteryBaseBumpCutoutDepth") :
+    name=="batteryClipBoltBracketRadius"        ? 0 :
+    name=="batteryClipBoltBracketRotX"      ? 0 :
+    name=="batteryClipBoltBracketRotY"      ? 0 :
+    name=="batteryClipBoltBracketRotZ"      ? 0 :    
+//////batteryClipBoltAA dimensions
+    name=="batteryClipBoltAAX"      ? gvv("batteryClipBoltBracketX") :
+    name=="batteryClipBoltAAY"      ? 25 :
+    name=="batteryClipBoltAAZ"      ? 0 :
+//////batteryClipBoltAB dimensions
+    name=="batteryClipBoltABX"      ? gvv("batteryClipBoltBracketX") :
+    name=="batteryClipBoltABY"      ? -25 :
+    name=="batteryClipBoltABZ"      ? 0 :
+    
+    
+
+0;

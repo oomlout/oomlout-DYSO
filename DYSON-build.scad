@@ -7,11 +7,12 @@ s="3DPR";       //extra clearance added
 o="3D";       //STL (3d) 
 //o="LAZE";       //DXF (2d)
 
-//i=0;    //Build all
+//i=5;    //Build all
 //m="NONE";
 
-i=8;    //Build all
-m="ALL";
+namePieces = false;
+
+i=5;    //Build all#m="ALL";
 
 //i=1;    //Build all
 //m="XXXX";
