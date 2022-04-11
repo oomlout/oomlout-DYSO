@@ -12,7 +12,7 @@ OPSCbuild(shift=200);
 // Description
 module draw1(){
     color="green";
-    drawDysonV6(color);    
+    oiii(type="dysonV6", color= color);  
 }
 
 // ZZZZ
@@ -80,7 +80,7 @@ module draw7(){
             oi("cubeRounded",x=testBlockX,y=testBlockY,z=testBlockZ,width=testBlockWidth,height=testBlockHeight,depth=testBlockDepth,color=color);
             difference(){
                 drawDysonV6Battery(color);
-                drawDysonV6Battery(color,batteryTerminalClearance=true);
+                //drawDysonV6Battery(color,batteryTerminalClearance=true);
             }
         }
     }
@@ -205,6 +205,9 @@ module ZZZZinsert(item,x=0,y=0,z=0,ex=0,length=0,rotX=0,rotY=0,rotZ=0,width=0,he
 }
 
 module drawDysonV6(color){
+    oiii(type="dysonV6Handle");
+    oiii(type="dysonV6DustBin");
+    oiii(type="dysonV6Battery");
     drawDysonV6Handle();
     drawDysonV6DustBin();
     drawDysonV6Battery();
@@ -216,12 +219,12 @@ module drawDysonBatteryClipBolt(color){
     translate([0,0,20]){
         union(){
             difference(){
-                oii("cubeRounded","batteryClipBoltBracket",color); 
+                oii("cubeRounded","batteryClipBoltBracket",color=color); 
                 drawDysonV6HandleBottomClearance(color); 
 //////batteryClipBoltAA oi
-                oii("holeM6","batteryClipBoltAA",color); 
+                oii("holeM6","batteryClipBoltAA",color=color); 
 //////batteryClipBoltAB oi
-                oii("holeM6","batteryClipBoltAB",color);
+                oii("holeM6","batteryClipBoltAB",color=color);
             }
 
 
@@ -265,13 +268,13 @@ module drawDysonV6Handle(color="red", dustBinOnly=false, screwHoleOnly=false){
     ////////////Main Handle Assembly    
                 union(){
     //////barrel oi    
-                    oii("cylinder","barrel",color);  
+                    oii("cylinder","barrel",color=color);  
     //////handle oi
-                    oii("cubeRounded","handle",color);    
+                    oii("cubeRounded","handle",color=color);    
     //////frontSupportMain oi
-                oii("cube","frontSupportMain",color);   
+                oii("cube","frontSupportMain",color=color);   
     //////bottom oi
-                oii("cube","bottom",color);        
+                oii("cube","bottom",color=color);        
                 }
     //remove the overhang out the bottom
                 oi("cube",x=0,y=0,z=0,width=1000,height=1000,depth=100,color=color);        
@@ -280,10 +283,10 @@ module drawDysonV6Handle(color="red", dustBinOnly=false, screwHoleOnly=false){
 //////front screw hole
             drawDysonBatteryFrontScrewPositive(color) ;
 //////frontSupportBase oi
-    oii("cube","frontSupportBase",color);                          
+    oii("cube","frontSupportBase",color=color);                          
         }
 ////////////Remove Dustbin here
-        drawDysonV6DustBin(color,,noCutout=true);
+        drawDysonV6DustBin(color,noCutout=true);
 //////frontScrew
             drawDysonBatteryFrontScrewNegative(color);        
     }
@@ -301,13 +304,13 @@ module drawDysonV6HandleBottomClearance(color){
             //////barrel oi    
                             //oii("cylinder","barrel",color);  
             //////handle oi
-                            oii("cubeRounded","handle",color);    
+                            oii("cubeRounded","handle",color=color);    
             //////frontSupportBase oi
-                        oii("cube","frontSupportBase",color);          
+                        oii("cube","frontSupportBase",color=color);          
             //////frontSupportMain oi
-                            oii("cube","frontSupportMain",color);   
+                            oii("cube","frontSupportMain",color=color);   
             //////bottom oi
-                        oii("cube","bottom",color);        
+                        oii("cube","bottom",color=color);        
                         }
             //remove the overhang out the bottom
                         oi("cube",x=0,y=0,z=0,width=1000,height=1000,depth=100,color=color);        
@@ -326,18 +329,18 @@ module drawDysonV6DustBin(color,noCutout=false){
     difference(){
         union(){
 //////dustBin oi
-        oii("cylinder","dustBin",color);
+        oii("cylinder","dustBin",color=color);
 //////dustbinClip oi
-        oii("cube","dustbinClip",color);   
+        oii("cube","dustbinClip",color=color);   
 //////dustBinPlungerClearance oi
-    oii("cube","dustBinPlungerClearance",color);        
+    oii("cube","dustBinPlungerClearance",color=color);        
 
         }
 ////////////DustBin Subtractions        
         union(){
 //////dustBinCutout oi            
         if(!noCutout){
-            oii("cube","dustBinCutout",color);                         
+            oii("cube","dustBinCutout",color=color);                         
         }
         }
     }
@@ -420,9 +423,9 @@ module drawDysonBatteryFrontScrewPositive(color){
 //////frontScrewBump oi
     oii("cubeRounded","frontScrewBump",color);
 ////////////Clipping Boxes
-        oi("cube",x=0,y=0,z=10+0.25,width=1000,height=1000,depth=10);
+        oi("cube",x=0,y=0,z=10+0.25,width=1000,height=1000,depth=10,color=color);
         oi("cube",x=gvv("frontScrewBumpX")-10-9-100/2,y=0,z=1000/2
-        ,width=110,height=1000,depth=1000);
+        ,width=110,height=1000,depth=1000,color=color);
 ////////////Front Angle Clip   
 //////frontScrewAngleClipper oi
         oii("cube","frontScrewAngleClipper",color);     
@@ -439,7 +442,7 @@ difference(){
     }
     
 ////////////Clipping Boxes
-    oi("cube",x=0,y=0,z=10+0.25,width=1000,height=1000,depth=10);
+    oi("cube",x=0,y=0,z=10+0.25,width=1000,height=1000,depth=10,color=color);
 }
 
 }
@@ -451,10 +454,45 @@ module drawDysonBatteryTerminals(color){
 }
 
 
+module oiii(type,name,color){
+   oii(type,x=gvv(str(name,"X")),y=gvv(str(name,"Y")),z=gvv(str(name,"Z")),rotX=gvv(str(name,"RotX")),rotY=gvv(str(name,"RotY")),rotZ=gvv(str(name,"RotZ")),color=color); 
+}
 
+module oii(type,name,color="gray",x=0,y=0,z=0,ex=0,length=0,rotX=0,rotY=0,rotZ=0,width=0,height=0,depth=100,rad=0,rad2=0,alpha=1,OOwidth=0,OOheight=0,holes=true,negative=true){
+    color(color,alpha){
+        translate([x,y,z]){
+                rotate([rotX,rotY,rotZ]){
+                    if(type=="TEST"){
+                        t = 0;
+                    }else if(type=="TEST2"){
+                        t = 0;
+                    }
+//@@@@@@dysonV6 Asembly                    
+                    else if(type=="dysonV6"){
+                        oiii(type="dysonV6Handle",color=color);
+                        oiii(type="dysonV6DustBin",color=color);
+                        oiii(type="dysonV6Battery",color=color);
+                    }                                           
+//@@@@@@dysonV6Handle Asembly                    
+                    else if(type=="dysonV6Handle"){ 
+                        drawDysonV6Handle(color=color);                           
+                    }
 
-module oii(type,name,color){
-    oi(type,x=gvv(str(name,"X")),y=gvv(str(name,"Y")),z=gvv(str(name,"Z")),width=gvv(str(name,"W")),height=gvv(str(name,"H")),depth=gvv(str(name,"D")),rad=gvv(str(name,"Radius")),rotX=gvv(str(name,"RotX")),rotY=gvv(str(name,"RotY")),rotZ=gvv(str(name,"RotZ")),color=color,name=name);
+//@@@@@@dysonV6DustBin Asembly                                            
+                    else if(type=="dysonV6DustBin"){ 
+                        drawDysonV6DustBin(color=color);
+                    }
+                    
+//@@@@@@dysonV6Battery Asembly                                            
+                    else if(type=="dysonV6Battery"){
+                        drawDysonV6Battery(color=color);
+                    }                        
+                    else{    
+                        oi(type,x=gvv(str(name,"X")),y=gvv(str(name,"Y")),z=gvv(str(name,"Z")),width=gvv(str(name,"W")),height=gvv(str(name,"H")),depth=gvv(str(name,"D")),rad=gvv(str(name,"Radius")),rotX=gvv(str(name,"RotX")),rotY=gvv(str(name,"RotY")),rotZ=gvv(str(name,"RotZ")),color=color,name=name);
+                    }
+                }
+        }
+    }
 }
 
 function gvv(name) =

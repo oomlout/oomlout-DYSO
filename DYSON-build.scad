@@ -12,7 +12,7 @@ o="3D";       //STL (3d)
 
 namePieces = false;
 
-i=5;    //Build all#m="ALL";
+i=1;    //Build all#m="ALL";
 
 //i=1;    //Build all
 //m="XXXX";
