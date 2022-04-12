@@ -200,8 +200,9 @@ module drawDysonV6BatteryMain(color){
             oiiD("cube","rearCutoutLeft",color);                                 
             oiiD("cube","rearCutoutRight",color);
 //////batteryTerminalCutouts
-            drawDysonBatteryTerminals(color);
-
+            //oiiD("dysonV6batteryTerminals",color);     ////
+            oiiD("dysonV6batteryTerminalSingle",color);
+            
 //////screwHoleUpper oi
             oiiD("holeM25D","screwHoleUpper",color);   
 //////screwHoleUpperCountersink oi
@@ -295,6 +296,11 @@ module oiiD(type,name,color="gray",x=0,y=0,z=0,ex=0,length=0,rotX=0,rotY=0,rotZ=
 //@@@@@@dysonV6batteryTerminals Asembly                                            
                     else if(type=="dysonV6batteryTerminals"){
                         drawDysonBatteryTerminals(color);                 
+                    }
+
+//@@@@@@dysonV6batteryTerminalSingle Asembly                                            
+                    else if(type=="dysonV6batteryTerminalSingle"){
+                        oiiD("cube","batteryTerminalSingle",color);                          
                     }                        
                     else{    
                         oi(type,x=gvvD(str(name,"X")),y=gvvD(str(name,"Y")),z=gvvD(str(name,"Z")),width=gvvD(str(name,"W")),height=gvvD(str(name,"H")),depth=gvvD(str(name,"D")),rad=gvvD(str(name,"Radius")),rotX=gvvD(str(name,"RotX")),rotY=gvvD(str(name,"RotY")),rotZ=gvvD(str(name,"RotZ")),color=color,name=name);
@@ -573,7 +579,18 @@ name=="TEST" ? "TEST":
     name=="batteryTerminalRightX"        ? gvvD("batteryTerminalLeftX") :
     name=="batteryTerminalRightY"        ? -gvvD("batteryTerminalCenters")/2 :
     name=="batteryTerminalRightZ"        ? gvvD("batteryTerminalLeftZ") :
-    name=="batteryTerminalRightRotY"     ? gvvD("handleTilt") :    
+    name=="batteryTerminalRightRotY"     ? gvvD("handleTilt") :  
+//////batteryTerminalSingle dimensions'      
+    name=="batteryTerminalSingleW"      ? gvvD("batteryTerminalLeftW") :
+    name=="batteryTerminalSingleH"      ? gvvD("batteryTerminalLeftH") * 2 + 4:
+    name=="batteryTerminalSingleD"      ? gvvD("batteryTerminalLeftD") :
+    name=="batteryTerminalSingleX"      ? gvvD("batteryTerminalLeftX") :
+    name=="batteryTerminalSingleY"      ? 0 :
+    name=="batteryTerminalSingleZ"      ? gvvD("batteryTerminalLeftZ") :
+    name=="batteryTerminalSingleRadius"     ? gvvD("batteryTerminalLeftRadius") :
+    name=="batteryTerminalSingleRotX"       ? gvvD("batteryTerminalLeftRotX") :
+    name=="batteryTerminalSingleRotY"       ? gvvD("batteryTerminalLeftRotY") :
+    name=="batteryTerminalSingleRotZ"       ? gvvD("batteryTerminalLeftRotZ") :
 
 ////////////Screw Bracket
 //////screwBracketDrop variable
