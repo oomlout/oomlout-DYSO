@@ -45,7 +45,8 @@ module drawDysonBatteryClipBolt(color){
                     drawDysonBatteryTerminals(color);
                 }
                 difference(){
-                    #drawDysonV6Battery(color);
+                    
+                    drawDysonV6Battery(color);
     //////cutout oi
                     //oi("cubeRounded",x=cutoutX,y=cutoutY,z=cutoutZ,width=cutoutW,height=cutoutH,depth=cutoutD,color=color,name="cutout");
                 }
@@ -120,23 +121,28 @@ module drawDysonV6HandleBottomClearance(color){
 
 }
 
-module drawDysonV6DustBin(color,noCutout=false){
-    difference(){
-        union(){
-//////dustBin oi
-        oiiD("cylinder","dustBin",color=color);
-//////dustbinClip oi
-        oiiD("cube","dustbinClip",color=color);   
-//////dustBinPlungerClearance oi
-    oiiD("cube","dustBinPlungerClearance",color=color);        
+module drawDysonV6DustBin(color,noCutout=false,simple=false){
+    
+        if(simple){
+            oiiD("cylinder","dustBin",color=color);
+        }else{
+            difference(){
+                union(){
+        //////dustBin oi
+                oiiD("cylinder","dustBin",color=color);
+        //////dustbinClip oi
+                oiiD("cube","dustbinClip",color=color);   
+        //////dustBinPlungerClearance oi
+            oiiD("cube","dustBinPlungerClearance",color=color);        
 
-        }
-////////////DustBin Subtractions        
-        union(){
-//////dustBinCutout oi            
-        if(!noCutout){
-            oiiD("cube","dustBinCutout",color=color);                         
-        }
+                }
+        ////////////DustBin Subtractions        
+                union(){
+        //////dustBinCutout oi            
+                if(!noCutout){
+                    oiiD("cube","dustBinCutout",color=color);                         
+                }
+            }
         }
     }
 }
@@ -278,7 +284,9 @@ module oiiD(type,name,color="gray",x=0,y=0,z=0,ex=0,length=0,rotX=0,rotY=0,rotZ=
                     else if(type=="dysonV6DustBin"){ 
                         drawDysonV6DustBin(color=color);
                     }
-                    
+                    else if(type=="dysonV6DustBinSimple"){ 
+                        drawDysonV6DustBin(color=color,simple=true);
+                    }
 //@@@@@@dysonV6Battery Asembly                                            
                     else if(type=="dysonV6Battery"){
                         drawDysonV6Battery(color=color);

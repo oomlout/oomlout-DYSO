@@ -8,6 +8,23 @@
 	* V6 is DC59
 	
 	
+;######  Parts
+
+		Cyclone
+		    Screws
+			     Two short in outside
+				 Five long in first layer
+				 Four long in second layer
+			Parts
+				Cyclone Cosmetic Top
+				Cyclone Inlet
+				Cyclone Surround
+				Cyclone Top
+				Cyconee Surround
+				Cyclone Cone
+				Cyclone Mesh
+				 
+	
 ;######  Thermistor
 
 	* V6 11.5k
